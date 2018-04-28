@@ -8,8 +8,8 @@
 
     <!--  -->
     <style>
-      @keyframes noJavaScriptChecker { to { visibility: visible; } }
-      .noJavaScriptChecker { visibility: hidden; animation: 0s linear 2.3s forwards noJavaScriptChecker; }
+      @keyframes pageStillLoading { to { visibility: visible; } }
+      .noJavaScriptChecker { visibility: hidden; animation: 0s linear 2.3s forwards pageStillLoading; }
     </style>
 
   </head>
@@ -17,10 +17,13 @@
 
   <body>
     <div id="root">
-      <div class="noJavaScriptChecker">
-        Seems like the page either didn't load yet or you have JavaScript disabled!<br>
-        JavaScript is required for running this simulator. What year are you living in anyways??
+      <div class="pageStillLoading">
+        The page still seems to be loading!<br>
+        If this problem persists, <a href="http://example.com">contact us</a>.<br>
       </div>
+      <noscript>
+        You don't seem to have JavaScript enabled. JavaScript is required
+      </noscript>
     </div>
   </body>
 
