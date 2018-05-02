@@ -16,9 +16,20 @@ const config = {
   },
   module: {
     rules: [
-      /* Babel */ { test: /\.js$/, exclude: /node_modules/, loader: "babel-loader" },
-      /* CSS */ { test: /\.css$/, use: [ 'style-loader', 'css-loader' ] },
-      /* Files */ { test: /\.(png|jpg|gif|svg)$/, use: [ { loader: 'url-loader', options: { limit: 8192 } } ] }
+      /* Babel */ {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+      /* CSS */ {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+        include: /flexboxgrid/
+      },
+      /* Files */ {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [{ loader: 'url-loader', options: { limit: 8192 } }]
+      }
     ]
   },
   plugins: [
@@ -41,20 +52,19 @@ const config = {
 module.exports = function(env) {
   if (env === undefined) env = {};
 
-
   if (!env.production) {
     config.mode = 'development';
     config.plugins.push(
       new webpack.DefinePlugin({
-          'process.env': {
-              NODE_ENV: JSON.stringify('development')
-          }
+        'process.env': {
+          NODE_ENV: JSON.stringify('development')
+        }
       })
     );
-    console.log("Development mode enabled in webpack.config.js. Make sure to disable this in production builds (by using the --env.production Webpack command line argument)");
+    console.log(
+      'Development mode enabled in webpack.config.js. Make sure to disable this in production builds (by using the --env.production Webpack command line argument)'
+    );
   }
 
-
-
   return config;
-}
+};
