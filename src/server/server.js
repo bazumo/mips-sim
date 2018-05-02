@@ -3,9 +3,7 @@
 import express from 'express';
 
 const servedFiles = {
-  '/': 'dist/index.html',
-  '/index.html': 'dist/index.html',
-  '/bundle.js': 'dist/bundle.js'
+  '/': 'dist/',
 };
 
 
