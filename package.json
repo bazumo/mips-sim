@@ -9,26 +9,24 @@
     "react": "^16.3.2",
     "react-dom": "^16.3.2"
   },
-
   "scripts": {
     "start": "npm run-script webpack && npm run-script start-n",
     "start-p": "npm run-script webpack-p && npm run-script start-n",
     "start-n": "babel-node src/server/server.js",
-
     "dev": "webpack-dev-server --port 3000",
-
     "build": "npm run-script webpack-p",
-
     "webpack": "npx webpack",
-    "webpack-p": "npx webpack --env.production"
+    "webpack-p": "npx webpack --env.production",
+    "test": "jest"
   },
-
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
+    "babel-jest": "^22.4.3",
     "babel-loader": "^7.1.4",
     "css-loader": "^0.28.11",
     "html-webpack-plugin": "^3.2.0",
+    "jest": "^22.4.3",
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.6.0",
