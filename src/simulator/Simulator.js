@@ -10,6 +10,8 @@ export default class Simulator {
     this.architecture = architecture;
     this.registers = new Uint32Array(architecture.getRegisterCount());       // TODO Disallow setting of certain registers (eg. $zero) in certain architectures
     this.memory = new Uint8Array(architecture.getMemorySize());
+    this.PC = 0;
+    this.nPC = 4;
   }
 
   /**
@@ -25,9 +27,15 @@ export default class Simulator {
    * Simulates one step in the emulator.
    */
   simulateStep() {
-    // TODO Implement a program counter
-    let PC = 0;
-    this.architecture.executeMachineCode(this, this.memory[PC]);
+    let machineCode = 0;
+    for (let i = 0; i < 4; i++) {
+      machineCode <<= 8;
+      machineCode |= this.memory[this.PC + i];
+    }
+    this.architecture.executeMachineCode(this, machineCode);
+
+    this.PC = this.nPC;
+    this.nPC = this.PC + 4;
   }
 
 
