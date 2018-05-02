@@ -13,7 +13,9 @@ describe("Example tests", () => {
     require('./FloatArithmetics.js');
   });
 
-  it("Understands negative numbers", () => {
-    expect(-3 - 5).toBe(-8);
+  it("Can do quick maffs", () => {
+    expect(2 + 2).toBe(4);
+    expect(4 - 1).toBe(3);
+    // QUICK MAFFS!
   });
 });
