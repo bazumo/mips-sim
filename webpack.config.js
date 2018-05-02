@@ -23,8 +23,7 @@ const config = {
       },
       /* CSS */ {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-        include: /flexboxgrid/
+        use: ['style-loader', 'css-loader']
       },
       /* Files */ {
         test: /\.(png|jpg|gif|svg)$/,
@@ -38,14 +37,14 @@ const config = {
     })
   ],
   resolve: {
-      alias: {
-        'assembler': path.resolve(__dirname, 'src/assembler'),
-        'client': path.resolve(__dirname, 'src/client'),
-        'server': path.resolve(__dirname, 'src/server'),
-        'simulator': path.resolve(__dirname, 'src/simulator'),
-        'test': path.resolve(__dirname, 'src/test'),
-        'architecture': path.resolve(__dirname, 'src/architecture'),
-      }
+    alias: {
+      assembler: path.resolve(__dirname, 'src/assembler'),
+      client: path.resolve(__dirname, 'src/client'),
+      server: path.resolve(__dirname, 'src/server'),
+      simulator: path.resolve(__dirname, 'src/simulator'),
+      test: path.resolve(__dirname, 'src/test'),
+      architecture: path.resolve(__dirname, 'src/architecture')
+    }
   }
 };
 

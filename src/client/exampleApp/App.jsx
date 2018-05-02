@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Editor from './Components/Editor';
-import SimulationControls from './Components/SimulationControlls';
-import RegistryView from './Components/RegistryView';
-import MemoryView from './Components/MemoryView';
+import Editor from './Components/Editor.jsx';
+import SimulationControls from './Components/SimulationControlls.jsx';
+import RegistryView from './Components/RegistryView.jsx';
+import MemoryView from './Components/MemoryView.jsx';
 import logo from './logo.svg';
 import './App.css';
 
