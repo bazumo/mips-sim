@@ -19,6 +19,13 @@ export default class Architecture {
   }
 
   /**
+   * Executes the instruction represented by machineCode. Default implementation should work for most architectures.
+   */
+  executeMachineCode(simulator, machineCode) {
+    this.getInstructionFor(machineCode).run(simulator, machineCode);
+  }
+
+  /**
    * Returns the number of registers of this architecture. Each register has a size of one word. Word size is currently hard-set to 32-bit.
    */
   getRegisterCount() {

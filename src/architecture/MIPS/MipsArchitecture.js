@@ -37,10 +37,6 @@ export default class MipsArchitecture extends Architecture {
     }
   }
 
-  executeMachineCode(simulator, machineCode) {
-    this.getInstructionFor(machineCode).run(simulator, machineCode);
-  }
-
   getRegisterCount() {
     return 32;
   }
