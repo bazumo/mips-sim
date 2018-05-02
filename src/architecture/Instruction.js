@@ -19,7 +19,7 @@ export default class Instruction {
   }
 
   /**
-   * Represents the machine code representation. Commonly but not necessarily a number representing the binary representation of the instruction (see BinaryInstruction).
+   * Returns the machine code representation. Commonly but not necessarily a number representing the binary representation of the instruction (see BinaryInstruction).
    */
   asMachineCode() {
     throw new Error("Instruction.generateBinary() not implemented!");

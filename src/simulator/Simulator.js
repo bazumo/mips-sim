@@ -9,7 +9,7 @@ export default class Simulator {
   constructor(architecture) {
     this.architecture = architecture;
     this.registers = new Uint32Array(architecture.getRegisterCount());       // TODO Disallow setting of certain registers (eg. $zero) in certain architectures
-    this.memory = new Uint32Array(architecture.getMemorySize());
+    this.memory = new Uint8Array(architecture.getMemorySize());
   }
 
   /**
