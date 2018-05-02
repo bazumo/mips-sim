@@ -1,7 +1,7 @@
 'use strict';
 
 describe("Example tests", () => {
-  it("Doesn't miss lethal like Reckful", () => {
+  it("Doesn't miss lethal", () => {
     require('./ReckfulLethal.js');
   });
 
@@ -14,8 +14,6 @@ describe("Example tests", () => {
   });
 
   it("Can do quick maffs", () => {
-    expect(2 + 2).toBe(4);
-    expect(4 - 1).toBe(3);
-    // QUICK MAFFS!
+    require('./QuickMaffs.js');
   });
 });

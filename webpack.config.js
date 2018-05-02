@@ -25,7 +25,17 @@ const config = {
     new HtmlWebpackPlugin({
       template: './src/client/index.html'
     })
-  ]
+  ],
+  resolve: {
+      alias: {
+        'assembler': path.resolve(__dirname, 'src/assembler'),
+        'client': path.resolve(__dirname, 'src/client'),
+        'server': path.resolve(__dirname, 'src/server'),
+        'simulator': path.resolve(__dirname, 'src/simulator'),
+        'test': path.resolve(__dirname, 'src/test'),
+        'architecture': path.resolve(__dirname, 'src/architecture'),
+      }
+  }
 };
 
 module.exports = function(env) {
