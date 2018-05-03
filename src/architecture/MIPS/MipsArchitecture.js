@@ -24,6 +24,11 @@ for (let instr of allInstructions) {
  * Class describing the MIPS architecture
  */
 export default class MipsArchitecture extends Architecture {
+  constructor(memorySize = 1024) {
+    super();
+    this.memorySize = memorySize;
+  }
+
   getInstructions() {
     return allInstructions;
   }
@@ -52,7 +57,7 @@ export default class MipsArchitecture extends Architecture {
   }
 
   getMemorySize() {
-    return 1024;
+    return this.memorySize;
   }
 }
 
@@ -68,4 +73,9 @@ MipsArchitecture.array32ToDataView = function(array) {
     view.setUint32(4*i, array[i], false);
   }
   return view;
+}
+
+
+MipsArchitecture.unsignInt32 = function(int) {
+  return int >>> 0;
 }

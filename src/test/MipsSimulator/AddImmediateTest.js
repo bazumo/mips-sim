@@ -56,7 +56,7 @@ for (let i of addiValues) {
         ]), 0x0);
         sim.registers[$t0] = r;
     }, (sim) => {
-      expect(sim.registers[$t1]).toBe(i+r);
+      expect(sim.registers[$t1]).toBe(MipsArchitecture.unsignInt32(i+r));
     });
   }
 }
@@ -67,12 +67,12 @@ for (let i of addiValues) {
 
 
 
-simulate("$t1 = ($t0 + 4) - 8, $t0 = 2", 1, (sim) => {
+simulate("$t1 = ($t0 + 4) - 8, $t0 = 2", 2, (sim) => {
     sim.loadIntoMemory(MipsArchitecture.array32ToDataView([
       Instructions.addi.asMachineCode($t0, $t1, 4),
       Instructions.addi.asMachineCode($t1, $t1, -8)
     ]), 0x0);
     sim.registers[$t0] = 2;
 }, (sim) => {
-  expect(sim.registers[$t1]).toBe(-2);
+  expect(sim.registers[$t1]).toBe(MipsArchitecture.unsignInt32(-2));
 });

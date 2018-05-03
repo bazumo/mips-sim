@@ -21,7 +21,7 @@ export default class BinaryInstruction extends Instruction {
     let res = 0;
     for (let i = 0; i < splitSizes.length; i++) {
       let e = args[i];
-      let l = splitSizes[i];
+      let l = Math.abs(splitSizes[i]);
       res <<= l;
       res |= e & ((1 << l) - 1);
     }
@@ -36,14 +36,27 @@ export default class BinaryInstruction extends Instruction {
     let res = Array(splitSizes.length);
     for (let i = splitSizes.length - 1; i >= 0; i--) {
       let l = splitSizes[i];
+      let signed = false;
+      if (l < 0) {
+        signed = true;
+        l = -l;
+      }
       res[i] = machineCode & ((1 << l) - 1);
-      machineCode >>= l;
+      if (signed) {
+        if ((res[i] & (1 << l-1)) !== 0) {
+          res[i] -= (1 << l);
+        }
+      }
+      machineCode >>>= l;
     }
+    console.log(res);
     return res;
   }
 
   /**
    * Returns an array of the pieces' sizes in bits. For example, if the instruction has a 16-bit binary representation oooo oooo 1111 2222 where o is the opcode, 1 the first argument and 2 the second argument, then .getSplitSizes() should return [8, 4, 4].
+   *
+   * By default, all pieces are unsigned integers. However, if you want a piece to be signed (first bit is sign but), then add a minus sign before the corresponding getSplitSizes() entry; eg. if arguments 1 and 2 in the examples above are signed, then .getSplitSizes() should return [8, -4, -4].
    */
   getSplitSizes() {
     throw new Error("BinaryInstruction.getSplitSizes() not implemented!");
