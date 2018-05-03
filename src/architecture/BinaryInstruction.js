@@ -49,7 +49,6 @@ export default class BinaryInstruction extends Instruction {
       }
       machineCode >>>= l;
     }
-    console.log(res);
     return res;
   }
 
