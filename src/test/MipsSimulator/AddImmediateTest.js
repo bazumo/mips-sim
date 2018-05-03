@@ -3,8 +3,8 @@
 import Simulator from 'simulator/Simulator';
 import Registers from 'architecture/MIPS/MipsRegisters';
 const { $t0, $t1 } = Registers;
+import Instructions from 'architecture/MIPS/MipsInstructions';
 import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';
-import Instructions from 'architecture/MIPS/MipsInstructions'
 
 
 
@@ -46,7 +46,7 @@ simulate("$t1 = $t0 + 5, $t0 = 2, 8-bit memory loading", 1, (sim) => {
 
 
 const addiValues = [0, 3, 5, -3];
-const regValues = [0, 2, 4, -4];
+const regValues = [0, 2, 4, -4, (1 << 31) - 4, 4294967292];
 
 for (let i of addiValues) {
   for (let r of regValues) {
