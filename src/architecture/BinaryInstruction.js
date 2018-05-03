@@ -6,7 +6,7 @@ import Instruction from 'architecture/Instruction';
 /**
  * Abstract class for an instruction that is represented by binary machine code, and can be split further into smaller pieces (eg. opcode and parameters), each with a size of a whole number of bits.
  *
- * Usual instructions on binary computers should implement this.
+ * Most instructions on binary architectures should extend this.
  */
 export default class BinaryInstruction extends Instruction {
   run(simulator, machineCode) {
@@ -43,13 +43,22 @@ export default class BinaryInstruction extends Instruction {
       }
       res[i] = machineCode & ((1 << l) - 1);
       if (signed) {
-        if ((res[i] & (1 << l-1)) !== 0) {
-          res[i] -= (1 << l);
-        }
+        res[i] = this.toSigned(res[i], l);
       }
       machineCode >>>= l;
     }
     return res;
+  }
+
+
+  /**
+   * Converts an unsigned int of bit length l to a signed int. Utility function.
+   */
+  toSigned(unsigned, l) {
+    if ((unsigned & (1 << l-1)) !== 0) {
+      unsigned -= (1 << l);
+    }
+    return unsigned;
   }
 
   /**

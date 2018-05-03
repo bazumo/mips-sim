@@ -7,7 +7,7 @@ import BinaryInstruction from 'architecture/BinaryInstruction';
  */
 export default class InstructionI extends BinaryInstruction {
   getSplitSizes() {
-    return [6, 5, 5, -16];
+    return [6, 5, 5, 16];
   }
 
   asMachineCode(rs, rt, immediate) {

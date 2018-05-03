@@ -2,18 +2,17 @@
 
 import InstructionI from './InstructionI';
 
-export default class addi extends InstructionI {
+export default class lui extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
     let R = simulator.registers;
-    R[rt] = R[rs] + this.toSigned(immediate, 16);
-    // TODO Add overflow trap
+    R[rt] = immediate << 16;
   }
 
   getName() {
-    return 'addi';
+    return 'lui';
   }
 
   getOpcode() {
-    return 0x8;
+    return 0xf;
   }
 }

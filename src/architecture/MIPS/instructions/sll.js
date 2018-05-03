@@ -2,18 +2,17 @@
 
 import InstructionR from './InstructionR';
 
-export default class add extends InstructionR {
+export default class sll extends InstructionR {
   apply(simulator, opcode, rs, rt, rd, shamt, funct) {
     let R = simulator.registers;
-    R[rd] = R[rs] + R[rt];
-    // TODO Add overflow trap
+    R[rd] = R[rs] << shamt;
   }
 
   getName() {
-    return 'add';
+    return 'sll';
   }
 
   getFunct() {
-    return 0x20;
+    return 0x0;
   }
 }
