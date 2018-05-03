@@ -30,11 +30,21 @@ export default class MipsArchitecture extends Architecture {
 
   getInstructionFor(machineCode) {
     let opcode = machineCode >> 26;
+    let result = undefined;
     if (opcode === 0) {
-      return instructionsR[machineCode & 0b111111];
+      result = instructionsR[machineCode & 0b111111];
     } else {
-      return instructionsNonR[opcode];
+      result = instructionsNonR[opcode];
     }
+
+    if (result === undefined) {
+      return new Error("Undefined instruction for machine code " + this.getPrintedMachineCode(machineCode));
+    }
+    return result;
+  }
+
+  getPrintedMachineCode(machineCode) {
+   return machineCode.toString(2);
   }
 
   getRegisterCount() {
@@ -44,4 +54,18 @@ export default class MipsArchitecture extends Architecture {
   getMemorySize() {
     return 1024;
   }
+}
+
+
+/**
+ * Returns a big endian DataView from the given array consisting of 32-bit numbers (either normal JS array or Uint32Array).
+ *
+ * Please note that this is required as usual arrays use the platform's endianness; MIPS requires big endian.
+ */
+MipsArchitecture.array32ToDataView = function(array) {
+  let view = new DataView(new ArrayBuffer(4 * array.length));
+  for (let i = 0; i < array.length; i++) {
+    view.setUint32(4*i, array[i], false);
+  }
+  return view;
 }

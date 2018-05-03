@@ -1,7 +1,7 @@
 'use strict';
 
 describe("MIPS Simulator", () => {
-  it("Can add two numbers", () => {
+  describe("Add Immediate", () => {
     require('./AddImmediateTest.js');
   });
 });

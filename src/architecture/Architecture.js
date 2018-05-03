@@ -19,10 +19,23 @@ export default class Architecture {
   }
 
   /**
+   * Returns a printed, human readable version of the machine code. Defaults to String(machineCode).
+   */
+  getPrintedMachineCode(machineCode) {
+    return String(machineCode);
+  }
+
+  /**
    * Executes the instruction represented by machineCode. Default implementation should work for most architectures.
    */
   executeMachineCode(simulator, machineCode) {
-    this.getInstructionFor(machineCode).run(simulator, machineCode);
+    let instruction = this.getInstructionFor(machineCode);
+    if (instruction === undefined) {
+      throw new Error("Undefined instruction for machine code " + this.getPrintedMachineCode(machineCode));
+    } else if (instruction instanceof Error) {
+      throw instruction;
+    }
+    instruction.run(simulator, machineCode);
   }
 
   /**
