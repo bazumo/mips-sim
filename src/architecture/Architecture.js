@@ -19,6 +19,13 @@ export default class Architecture {
   }
 
   /**
+   * Returns a map mapping register names to register IDs.
+   */
+  getRegisterNames() {
+    throw new Error("Architecture.getRegisterNames() not implemented!");
+  }
+
+  /**
    * Returns a printed, human readable version of the machine code. Defaults to String(machineCode).
    */
   getPrintedMachineCode(machineCode) {
@@ -36,6 +43,13 @@ export default class Architecture {
       throw instruction;
     }
     instruction.run(simulator, machineCode);
+  }
+
+  /**
+   * Returns a list of all assembler plugins to be used in the assembler.
+   */
+  getAssemblerPlugins() {
+    return [];
   }
 
   /**

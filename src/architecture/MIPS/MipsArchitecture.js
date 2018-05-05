@@ -2,7 +2,9 @@
 
 import Architecture from 'architecture/Architecture';
 import MipsInstructions from './MipsInstructions';
+import MipsRegisters from './MipsRegisters';
 import InstructionR from './instructions/InstructionR';
+import InstructionParserPlugin from 'assembler/Plugins/InstructionParserPlugin';
 
 
 
@@ -18,6 +20,11 @@ for (let instr of allInstructions) {
     instructionsNonR[instr.getOpcode()] = instr;
   }
 }
+
+
+const assemblerPlugins = [
+  new InstructionParserPlugin(this)
+];
 
 
 /**
@@ -48,8 +55,16 @@ export default class MipsArchitecture extends Architecture {
     return result;
   }
 
+  getRegisterNames() {
+    return MipsRegisters;
+  }
+
   getPrintedMachineCode(machineCode) {
    return machineCode.toString(2);
+  }
+
+  getAssemblerPlugins() {
+    return assemblerPlugins;
   }
 
   getRegisterCount() {
