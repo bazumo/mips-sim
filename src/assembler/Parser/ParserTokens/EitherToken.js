@@ -4,7 +4,7 @@ import ParserToken from './ParserToken';
 import ParserError from 'assembler/Parser/ParserError';
 
 /**
- * Matches one of the given instructions.
+ * Matches either of the given instructions.
  */
 export default function(...instructions) {
   return class EitherToken extends ParserToken {

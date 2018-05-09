@@ -11,11 +11,11 @@ export default class DummyToken extends ParserToken {
     return [new DummyToken(parser, parser.pos, parser.getLineNumber(), parser.getPositionInLine())];
   }
 
-  isAssemblable() {
-    return true;
+  getAssembledLength() {
+    return 0;
   }
 
-  writeAssembly(arrayBuffer, index) {
+  writeAssembly(dataView, index) {
     return index;
   }
 }

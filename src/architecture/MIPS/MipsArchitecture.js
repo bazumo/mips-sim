@@ -4,7 +4,7 @@ import Architecture from 'architecture/Architecture';
 import MipsInstructions from './MipsInstructions';
 import MipsRegisters from './MipsRegisters';
 import InstructionR from './instructions/InstructionR';
-import InstructionParserPlugin from 'assembler/Plugins/InstructionParserPlugin';
+import InstructionParserPlugin from 'assembler/Plugins/InstructionParser/InstructionParserPlugin';
 
 
 
@@ -22,11 +22,6 @@ for (let instr of allInstructions) {
 }
 
 
-const assemblerPlugins = [
-  new InstructionParserPlugin(this)
-];
-
-
 /**
  * Class describing the MIPS architecture
  */
@@ -34,10 +29,25 @@ export default class MipsArchitecture extends Architecture {
   constructor(memorySize = 1024) {
     super();
     this.memorySize = memorySize;
+    this.assemblerPlugins = [
+      new InstructionParserPlugin(this)
+    ];
   }
 
   getInstructions() {
     return allInstructions;
+  }
+
+  getInstructionMap() {
+    return MipsInstructions;
+  }
+
+  getWordSize() {
+    return 4;
+  }
+
+  getEndianness(n) {
+    return Architecture.Endianness.BIG_ENDIAN(n);
   }
 
   getInstructionFor(machineCode) {
@@ -64,7 +74,7 @@ export default class MipsArchitecture extends Architecture {
   }
 
   getAssemblerPlugins() {
-    return assemblerPlugins;
+    return this.assemblerPlugins;
   }
 
   getRegisterCount() {

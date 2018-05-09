@@ -12,7 +12,7 @@ export default class ParserToken {
   }
 
   /**
-   * Creates a new ParserToken instance. Should never be called on ParserToken itself since it is abstract.
+   * Creates a new ParserToken instance. Should never be called on ParserToken itself since it is abstract. A ParserToken is supposed to be immutable after construction, so that it is safe to put early compilation and assembly preparations here.
    */
   constructor(parser, sourceStart, sourceLine, sourcePosInLine) {
     this.parser = parser;
@@ -22,16 +22,16 @@ export default class ParserToken {
   }
 
   /**
-   * Returns a boolean indicating whether this token can be assembled into binary data. If this is false, .writeAssembly() should always return an AssemblyError. If it is true, .writeAssembly() might still return an AssemblyError.
+   * Returns a number indicating the length of the assembled instruction. May return an AssemblyError, indicating the token can't be assembled.
    */
-  isAssemblable() {
-    return false;
+  getAssembledLength() {
+    return new AssemblyError(this.sourceStart, this.sourceLine, this.sourcePosInLine, "Can't assemble this type of parser token");
   }
 
   /**
-   * Tries to write the token's binary assembly representation into arrayBuffer starting at (byte) index and returns the index of the first byte that was not written. This function can also fail, eg. if .isAssemblable() returns false, in which case an AssemblyError must be returned (not thrown).
+   * Tries to write the token's binary assembly representation into dataView starting at (byte) index and returns the index of the first byte that was not written. Behaviour of this function if getAssembledLength() returns an AssemblyError is undefined.
    */
-   writeAssembly(arrayBuffer, index) {
-     return new AssemblyError(this.sourceStart, this.sourceLine, this.sourcePosInLine, "Can't assemble this type of token");
+   writeAssembly(dataView, index) {
+     return index;
    }
 }

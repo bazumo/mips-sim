@@ -1,6 +1,8 @@
 'use strict';
 
 import BinaryInstruction from 'architecture/BinaryInstruction';
+import RegisterParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/RegisterParameterToken';
+import IntegerLiteralParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/IntegerLiteralParameterToken';
 
 /**
  * Super-class for I-type MIPS instructions
@@ -16,5 +18,10 @@ export default class InstructionI extends BinaryInstruction {
 
   getOpcode() {
     throw new Error("InstructionI.getOpcode() not implemented!");
+  }
+
+  getParameterParserTokens(architecture) {
+    let RPT = RegisterParameterToken(architecture);
+    return [RPT, RPT, IntegerLiteralParameterToken(-32768, 65535)];
   }
 }

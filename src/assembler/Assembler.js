@@ -1,5 +1,7 @@
 'use strict';
 
+import util from 'util';
+import AssemblyError from './AssemblyError';
 import Parser from './Parser/Parser';
 import ParserError from './Parser/ParserError';
 
@@ -13,12 +15,11 @@ export default class Assembler {
    * Default constructor. Initializes the assembler for a given architecture using its plugins, or no plugins if no architecture is passed.
    */
   constructor(architecture = null) {
+    this.plugins = [];
     if (architecture !== null) {
-      for (let plugin of architecture.getPlugins()) {
+      for (let plugin of architecture.getAssemblerPlugins()) {
         this.addPlugin(plugin);
       }
-    } else {
-      this.plugins = [];
     }
   }
 
@@ -46,20 +47,33 @@ export default class Assembler {
    */
   parse(s) {
     let result = [];
-    let plugins = getPlugins();
-    let parser = new Parser(s, this.architecture);
-    while (!parser.endOfFile) {
-      for (let plugin of plugins) {
-        
-      }
+
+    let topLevelTokens = [];
+    let plugins = this.getPlugins();
+    for (let plugin of plugins) {
+      let n = plugin.getTopLevelParserInstructions();
+      if (n.length >= 1) topLevelTokens = topLevelTokens.concat(n);
     }
+
+    let parser = new Parser(s, this.architecture);
+    return parser.exactlyOne.apply(parser, topLevelTokens);
   }
 
   /**
-   * Parses and assembles the given string. Returns either a ParseError, AssembleError or an array buffer containing the assembled binary machine code.
+   * Parses and assembles the given string. Returns either a ParserError, AssembleError or a data view containing the assembled binary machine code.
    */
   assemble(s) {
+    let token = this.parse(s);
+    if (token instanceof ParserError) return token;
 
+    let len = token.getAssembledLength();
+    if (len instanceof AssemblyError) return len;
+
+    let dataView = new DataView(new ArrayBuffer(len));
+    if (len !== token.writeAssembly(dataView, 0)) {
+      throw new Error("Data view indices somehow didn't sum up to the calculated length - what went wrong?");
+    }
+    return dataView;
   }
 
 }

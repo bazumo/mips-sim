@@ -5,9 +5,16 @@
  */
 export default class AssemblerPlugin {
   /**
-   * Returns a list of assembler plugin object which are required for this plugin.
+   * Returns an array of assembler plugin objects which are required for this plugin.
    */
-   getDependencies() {
-     return [];
-   }
+  getDependencies() {
+    return [];
+  }
+
+  /**
+   *  Returns an array of all top level parser tokens, ie. those which the parser searches for without context.
+   */
+  getTopLevelParserInstructions() {
+    return [];
+  }
 }

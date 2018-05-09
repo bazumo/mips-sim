@@ -1,5 +1,6 @@
 'use strict';
 
+import util from 'util';
 import ParserError from './ParserError';
 import ParserToken from './ParserTokens/ParserToken';
 import SequentialToken from './ParserTokens/SequentialToken';
@@ -23,6 +24,8 @@ import EndOfFileToken from './ParserTokens/EndOfFileToken';
  * This behaviour is defined in Parser.parse().
  *
  * The result of most parsing operations is an array of ParserTokens and ParserErrors. Each elemenent represents an interpretation; for example, in a fictional programming language, the statement "x = 10" could be interpreted as assignment of a variable 'x' to the value '10', or as a call of the function 'x' with arguments '=' and '10'. The former would likely succeed and return a ParserToken; the latter would likely fail and return a ParserError with a message noting that '=' is not a valid identifier.
+ *
+ * Instead of trying to understand this, just read test/Parser/ParserTest.js.
  */
 export default class Parser {
   /**
@@ -32,6 +35,8 @@ export default class Parser {
     this.s = s;
     this.pos = 0;
     this.whitespaceRegex = /\s+/;
+    this.newlineRegex = /\s+\n+\s+/;
+    this.identifierRegex = /[a-zA-Z_][a-zA-Z0-9_]+/;
   }
 
   /**
@@ -51,6 +56,29 @@ export default class Parser {
     let c = this.s.substring(this.pos, this.pos + chars);
     this.pos += chars;
     return c;
+  }
+
+  /**
+   * Checks whether the next substring matches the argument exactly without reading anything.
+   */
+  isNext(s) {
+    let c = this.s.substring(this.pos, this.pos + s.length);
+    if (c === s)
+      return true;
+    else
+      return false;
+  }
+
+  /**
+   * Reads the string passed as an argument if and only if it matches exactly the next substring. Returns true if something was read, false if not.
+   */
+  readIfNext(s) {
+    if (this.isNext(s)) {
+      this.pos += s.length;
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /**
@@ -91,7 +119,11 @@ export default class Parser {
 
 
     if (Array.isArray(instruction)) {
-      instruction = SequentialToken.apply(SequentialToken, instruction);
+      if (instruction.length === 1) {
+        instruction = instruction[0];
+      } else {
+        instruction = SequentialToken.apply(SequentialToken, instruction);
+      }
     }
     if (typeof instruction === 'string') {
       if (instruction === '') {
@@ -109,7 +141,13 @@ export default class Parser {
       instruction = EndOfFileToken;
     }
 
+
+    if (typeof instruction.parse !== 'function') {
+      throw new Error("The object passed is not a valid instruction! " + util.inspect(instruction));
+    }
+
     let parsed = instruction.parse(this.clone());
+    //console.log(instructions, parsed);
     return parsed;
   }
 
@@ -153,6 +191,25 @@ export default class Parser {
     } else {
       return new ParserError(this, "Code is ambiguous: " + tokens);
     }
+  }
+
+  /**
+   * Parses the given instruction and and maps tokens and errors with the function given.
+   *
+   * Please note that you cannot use an indefinite amount of arguments like you can with most of the other parsing methods. You can, however, pass an array of instructions as the first argument instead.
+   *
+   * If the wrapper function returns undefined, the elements are mapped using the identity function.
+   */
+  parseAndMap(singleInstruction, tokenMapper = (a => a), errorMapper = (a => a)) {
+    let arr = this.parse(singleInstruction);
+    return arr.map((o) => {
+      if (o instanceof ParserToken)
+        return tokenMapper(o);
+      else if (o instanceof ParserError)
+        return errorMapper(o);
+      else
+        throw new Error("Parser result element " + o + " is neither a ParserToken nor a ParserError!");
+    });
   }
 
   /**

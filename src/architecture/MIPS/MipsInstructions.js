@@ -2,7 +2,7 @@
 
 
 
-// TODO Instructions currently missing: ll, sc. To be fixed: add, addi, sub (overflow trap). Also add arithmetic core
+// TODO Instructions currently missing: ll, sc. To be fixed: add, addi, sub (overflow trap) and beg, bne (wrong BranchAddr). Also add arithmetic core
 const instructionList = [
   'add',
   'addi',

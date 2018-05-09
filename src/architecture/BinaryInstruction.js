@@ -4,7 +4,7 @@ import Instruction from 'architecture/Instruction';
 
 
 /**
- * Abstract class for an instruction that is represented by binary machine code, and can be split further into smaller pieces (eg. opcode and parameters), each with a size of a whole number of bits.
+ * Abstract class for an instruction that is represented by binary machine code on an architecture with the base unit of 1 byte, and can be split further into smaller pieces (eg. opcode and parameters), each with a size of a whole number of bits.
  *
  * Most instructions on binary architectures should extend this.
  */
@@ -60,6 +60,29 @@ export default class BinaryInstruction extends Instruction {
     }
     return unsigned;
   }
+
+
+
+  /* Default behaviour for getAssembledLength() and writeAssembly(): Convert the machine code to 1-word-sized binary data and write it onto the dataview. Sub-classes may override this. */
+  getAssembledLength(architecture, parameters) {
+    return architecture.getWordSize();
+  }
+
+  writeAssembly(architecture, parameters, dataView, index) {
+    let machineCode = this.asMachineCode.apply(this, parameters);
+    console.log(parameters, this.merge);
+
+    let n = architecture.getWordSize();
+    let endianness = architecture.getEndianness(n);
+    for (let i = n - 1; i >= 0; i--) {
+      let j = endianness.next().value;
+      dataView.setUint8(index + j, machineCode >>> (8 * i) & 255);
+    }
+
+    return index + n;
+  }
+
+
 
   /**
    * Returns an array of the pieces' sizes in bits. For example, if the instruction has a 16-bit binary representation oooo oooo 1111 2222 where o is the opcode, 1 the first argument and 2 the second argument, then .getSplitSizes() should return [8, 4, 4].

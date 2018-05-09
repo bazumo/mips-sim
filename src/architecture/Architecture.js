@@ -26,6 +26,26 @@ export default class Architecture {
   }
 
   /**
+   * Returns the word size of this architecture in the architecture's base unit (usually bytes). Currently not enforced across all of the code; at some points it's hard-coded to 4.
+   */
+   getWordSize() {
+    throw new Error("Architecture.getWordSize() not implemented!");
+  }
+
+  /**
+   * A coroutine taking an integer n as an argument and yielding the numbers 0...n-1, in an order which defines the architecture's endianness. Given n pieces, the position of the most significant piece is yielded first, second most significant piece yielded second, up until the least significant piece which is yielded last.
+   *
+   * Example: Big Endian yields in the order 0, 1, 2, ..., n-2, n-1; Little Endian yields in the order n-1, n-2, ..., 2, 1, 0. Mixed Endian yields in the order 1, 0, 3, 2, 5, 4 ..., or similar.
+   *
+   * Most modern architectures use Little Endian. Many older architectures use Big Endian. If your architecture uses anything else, you might want to switch architectures.
+   *
+   * Writing this function as a normal function instead of a coroutine and returning Architecture.Endianness.BIG_ENDIAN(n) or Architecture.Endianness.LITTLE_ENDIAN(n) usually suffices.
+   */
+  *getEndianness(n) {
+    throw new Error("Architecture.getEndianness() not implemented!");
+  }
+
+  /**
    * Returns a printed, human readable version of the machine code. Defaults to String(machineCode).
    */
   getPrintedMachineCode(machineCode) {
@@ -64,5 +84,20 @@ export default class Architecture {
    */
   getMemorySize() {
     throw new Error("Architecture.getMemorySize() not implemented!");
+  }
+}
+
+
+Architecture.Endianness = {
+  BIG_ENDIAN: function*(n) {
+    for (let i = 0; i < n; i++) {
+      yield i;
+    }
+  },
+
+  LITTLE_ENDIAN: function*(n) {
+    for (let i = n-1; i >= 0; i--) {
+      yield i;
+    }
   }
 }

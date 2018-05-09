@@ -18,11 +18,11 @@ export default function(regex) {
       }
     }
 
-    isAssemblable() {
-      return true;
+    getAssembledLength() {
+      return 0;
     }
 
-    writeAssembly(arrayBuffer, index) {
+    writeAssembly(dataView, index) {
       return index;
     }
   }
