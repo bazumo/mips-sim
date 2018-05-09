@@ -70,7 +70,6 @@ export default class BinaryInstruction extends Instruction {
 
   writeAssembly(architecture, parameters, dataView, index) {
     let machineCode = this.asMachineCode.apply(this, parameters);
-    console.log(parameters, this.merge);
 
     let n = architecture.getWordSize();
     let endianness = architecture.getEndianness(n);
