@@ -15,4 +15,8 @@ export default class lbu extends InstructionI {
   getOpcode() {
     return 0x24;
   }
+
+  isImmediateSigned() {
+    return true;
+  }
 }

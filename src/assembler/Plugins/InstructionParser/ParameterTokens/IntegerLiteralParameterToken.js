@@ -12,7 +12,7 @@ import ParserError from 'assembler/Parser/ParserError';
        let pos = parser.pos, line = parser.getLineNumber(), posInLine = parser.getPositionInLine();
 
        //let regex = /-?((0d|d|)[0-9_]+|(0h|0x|&h|h)[0-9a-f_]+|(0b|&b|b)[01_]+|(0o|&o|o)[0-7_]+)/i; // TODO Write a more advanced number parser allowing for binary and octal
-       let regex = /-?(0x[0-9a-f]|[0-9])/i;
+       let regex = /-?(0x[0-9a-f]+|[0-9]+)/i;
        let s = parser.readRegEx(regex);
        if (s === undefined) return [];
 

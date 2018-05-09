@@ -5,7 +5,7 @@ import InstructionI from './InstructionI';
 export default class addi extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
     let R = simulator.registers;
-    R[rt] = R[rs] + this.toSigned(immediate, 16);
+    R[rt] = R[rs] + immediate;
     // TODO Add overflow trap
   }
 
@@ -15,5 +15,9 @@ export default class addi extends InstructionI {
 
   getOpcode() {
     return 0x8;
+  }
+
+  isImmediateSigned() {
+    return true;
   }
 }

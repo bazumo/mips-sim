@@ -6,7 +6,7 @@ export default class lhu extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
     let R = simulator.registers;
     let M = simulator.memory;
-    let pos = R[rs] + this.toSigned(immediate, 16);
+    let pos = R[rs] + immediate;
     R[rt] = (M[pos] << 8) + M[pos + 1];
   }
 
@@ -16,5 +16,9 @@ export default class lhu extends InstructionI {
 
   getOpcode() {
     return 0x25;
+  }
+
+  isImmediateSigned() {
+    return true;
   }
 }

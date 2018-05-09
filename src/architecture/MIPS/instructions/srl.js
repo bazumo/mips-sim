@@ -15,4 +15,8 @@ export default class srl extends InstructionR {
   getFunct() {
     return 0x2;
   }
+
+  getUseShamt() {
+    return true;
+  }
 }

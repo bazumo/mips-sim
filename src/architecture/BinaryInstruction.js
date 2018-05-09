@@ -86,7 +86,7 @@ export default class BinaryInstruction extends Instruction {
   /**
    * Returns an array of the pieces' sizes in bits. For example, if the instruction has a 16-bit binary representation oooo oooo 1111 2222 where o is the opcode, 1 the first argument and 2 the second argument, then .getSplitSizes() should return [8, 4, 4].
    *
-   * By default, all pieces are unsigned integers. However, if you want a piece to be signed (first bit is sign but), then add a minus sign before the corresponding getSplitSizes() entry; eg. if arguments 1 and 2 in the examples above are signed, then .getSplitSizes() should return [8, -4, -4].
+   * By default, all pieces are unsigned integers. However, if you want a piece to be signed (most significant bit is sign bit), then add a minus sign before the corresponding getSplitSizes() entry; eg. if arguments 1 and 2 in the examples above are signed, then .getSplitSizes() should return [8, -4, -4].
    */
   getSplitSizes() {
     throw new Error("BinaryInstruction.getSplitSizes() not implemented!");

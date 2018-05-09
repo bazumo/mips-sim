@@ -7,7 +7,7 @@ export default class sh extends InstructionI {
     let R = simulator.registers;
     let M = simulator.memory;
     let data = R[rt];
-    let pos = R[rs] + this.toSigned(immediate, 16);
+    let pos = R[rs] + immediate;
     M[pos + 2] = data >>> 8 & 255;
     M[pos + 3] = data >>> 0 % 255;
   }
@@ -18,5 +18,9 @@ export default class sh extends InstructionI {
 
   getOpcode() {
     return 0x38;
+  }
+
+  isImmediateSigned() {
+    return true;
   }
 }

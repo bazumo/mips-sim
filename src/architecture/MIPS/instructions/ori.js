@@ -15,4 +15,8 @@ export default class andi extends InstructionI {
   getOpcode() {
     return 0xd;
   }
+
+  isImmediateSigned() {
+    return true;
+  }
 }

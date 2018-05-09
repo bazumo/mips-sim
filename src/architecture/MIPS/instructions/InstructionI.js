@@ -9,11 +9,18 @@ import IntegerLiteralParameterToken from 'assembler/Plugins/InstructionParser/Pa
  */
 export default class InstructionI extends BinaryInstruction {
   getSplitSizes() {
-    return [6, 5, 5, 16];
+    return [6, 5, 5, this.isImmediateSigned() ? -16 : 16];
   }
 
   asMachineCode(rs, rt, immediate) {
     return this.merge(this.getOpcode(), rs, rt, immediate);
+  }
+
+  /**
+   * Returns a boolean indicating whether the immediate value is a signed value or not. Default: false
+   */
+  isImmediateSigned() {
+    return false;
   }
 
   getOpcode() {
@@ -22,6 +29,11 @@ export default class InstructionI extends BinaryInstruction {
 
   getParameterParserTokens(architecture) {
     let RPT = RegisterParameterToken(architecture);
-    return [RPT, RPT, IntegerLiteralParameterToken(-32768, 65535)];
+    let ILPT = IntegerLiteralParameterToken;
+    return [RPT, RPT, this.isImmediateSigned() ? ILPT(-32768, 32767) : ILPT(0, 65535)];
+  }
+
+  writeAssembly(architecture, p, dataView, index) {
+    return super.writeAssembly(architecture, [p[1], p[0], p[2]], dataView, index);
   }
 }

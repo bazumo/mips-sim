@@ -15,4 +15,8 @@ export default class sltiu extends InstructionI {
   getOpcode() {
     return 0xa;
   }
+
+  isImmediateSigned() {
+    return true;
+  }
 }
