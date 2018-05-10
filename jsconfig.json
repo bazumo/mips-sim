@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "assembler/*": ["./src/assembler/*"],
+      "client/*": ["./src/client/*"],
+      "server/*": ["./src/server/*"],
+      "simulator/*": ["./src/simulator/*"],
+      "architecture/*": ["./src/architecture/*"],
+      "test/*": ["./src/test/*"]
+    }
+  }
+}
