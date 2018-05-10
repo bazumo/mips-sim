@@ -14,10 +14,7 @@ class Editor extends Component {
     return (
       <AceEditor
         mode="mips_assembler"
-        defaultValue={`
-// Welcome to Mips Sim
-addi  $rt, $rs, 0
-        `}
+        value={this.props.value}
         theme="github"
         width="100%"
         height="100%"
