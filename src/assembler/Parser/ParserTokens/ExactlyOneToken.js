@@ -4,7 +4,7 @@ import ParserToken from './ParserToken';
 import ParserError from 'assembler/Parser/ParserError';
 
 /**
- * Matches exactly one of the given instructions. Similar to EitherToken, but fails if there's more than one match.
+ * Matches exactly one of the given syntax descriptors. Similar to EitherToken, but fails if there's more than one match.
  */
 export default function(...instructions) {
   return class ExactlyOneToken extends ParserToken {

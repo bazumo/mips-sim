@@ -12,9 +12,9 @@ export default class AssemblerPlugin {
   }
 
   /**
-   *  Returns an array of all top level parser tokens, ie. those which the parser searches for without context.
+   *  Returns an array of all top level parser syntax descriptors, ie. those which the parser searches for without context.
    */
-  getTopLevelParserInstructions() {
+  getTopLevelParserSyntax() {
     return [];
   }
 }

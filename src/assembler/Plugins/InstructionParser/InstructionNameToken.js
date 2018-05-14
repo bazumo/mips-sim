@@ -4,7 +4,7 @@ import ParserToken from 'assembler/Parser/ParserTokens/ParserToken';
 import AssemblyError from 'assembler/AssemblyError';
 
 /**
- * A token representing a single instruction name.
+ * A token representing a single machine instruction name.
  */
 export default function(architecture) {
   return class InstructionNameToken extends ParserToken {

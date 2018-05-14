@@ -13,13 +13,13 @@ import EndOfFileToken from './ParserTokens/EndOfFileToken';
 /**
  * A string wrapper class with several utility functions for parsing.
  *
- * Wherever a function takes a parsing instruction as an argument, it may either of the following:
+ * Wherever a function takes a parser syntax descriptor as an argument, it may either of the following:
  * - a constructor function (uninstantiated) of a ParserToken,
  * - a String with at least one non-whitespace character (implicitly converted into a StaticStringToken),
  * - a RegEx (implicitly converted into a StaticRegExToken),
  * - an empty String (implicitly converted into an OptionalToken(WhitespaceToken)),
  * - a String containg only whitespace characters (implicitly converted into a WhitespaceToken),
- * - an array of parsing instructions (implicitly converted into a SequentialToken),
+ * - an array of parser syntax descriptors (implicitly converted into a SequentialToken),
  * - or null (implicitly converted into an EndOfFileToken).
  * This behaviour is defined in Parser.parse().
  *
@@ -102,62 +102,62 @@ export default class Parser {
 
 
   /**
-   * Takes any amount of parsing instructions and returns the result of the parsing operations applied sequentially.
+   * Takes any amount of syntax descriptors and returns the result of the parsing operations applied sequentially.
    */
-  parse(...instructions) {
-    if (instructions.length == 0) {
+  parse(...syntaxDescriptors) {
+    if (syntaxDescriptors.length == 0) {
       throw new Error("Invalid argument count: " + this.arguments.length);
     }
 
-    if (instructions.length > 1) {
-      return this.parse(instructions);
+    if (syntaxDescriptors.length > 1) {
+      return this.parse(syntaxDescriptors);
     }
 
 
 
-    let instruction = instructions[0];
+    let syntaxDescriptor = syntaxDescriptors[0];
 
 
-    if (Array.isArray(instruction)) {
-      if (instruction.length === 1) {
-        instruction = instruction[0];
+    if (Array.isArray(syntaxDescriptor)) {
+      if (syntaxDescriptor.length === 1) {
+        syntaxDescriptor = syntaxDescriptor[0];
       } else {
-        instruction = SequentialToken.apply(SequentialToken, instruction);
+        syntaxDescriptor = SequentialToken.apply(SequentialToken, syntaxDescriptor);
       }
     }
-    if (typeof instruction === 'string') {
-      if (instruction === '') {
-        instruction = OptionalToken(WhitespaceToken);
-      } else if (new RegExp('^' + this.whitespaceRegex.source + '$').test(instruction)) {
-          instruction = WhitespaceToken;
+    if (typeof syntaxDescriptor === 'string') {
+      if (syntaxDescriptor === '') {
+        syntaxDescriptor = OptionalToken(WhitespaceToken);
+      } else if (new RegExp('^' + this.whitespaceRegex.source + '$').test(syntaxDescriptor)) {
+          syntaxDescriptor = WhitespaceToken;
       } else {
-          instruction = StaticStringToken(instruction);
+          syntaxDescriptor = StaticStringToken(syntaxDescriptor);
       }
     }
-    if (instruction instanceof RegExp) {
-      instruction = StaticRegExToken(instruction);
+    if (syntaxDescriptor instanceof RegExp) {
+      syntaxDescriptor = StaticRegExToken(syntaxDescriptor);
     }
-    if (instruction === null) {
-      instruction = EndOfFileToken;
-    }
-
-
-    if (typeof instruction.parse !== 'function') {
-      throw new Error("The object passed is not a valid instruction! " + util.inspect(instruction));
+    if (syntaxDescriptor === null) {
+      syntaxDescriptor = EndOfFileToken;
     }
 
-    let parsed = instruction.parse(this.clone());
-    //console.log(instructions, parsed);
+
+    if (typeof syntaxDescriptor.parse !== 'function') {
+      throw new Error("The object passed is not a valid syntax descriptor! " + util.inspect(syntaxDescriptor));
+    }
+
+    let parsed = syntaxDescriptor.parse(this.clone());
+    //console.log(syntaxDescriptor, parsed);
     return parsed;
   }
 
   /**
-   * Takes any amount of parsing instructions and returns the result of each of the parsing operations in a concatted array.
+   * Takes any amount of syntax descriptors and returns the result of each of the parsing operations in a concatted array.
    */
-  either(...instructions) {
+  either(...syntaxDescriptors) {
     let res = [];
-    for (let i = 0; i < instructions.length; i++) {
-      let parsed = this.parse(instructions[i]);
+    for (let i = 0; i < syntaxDescriptors.length; i++) {
+      let parsed = this.parse(syntaxDescriptors[i]);
       res = res.concat(parsed);
     }
     return res;
@@ -166,8 +166,8 @@ export default class Parser {
   /**
    * Similar to either(...), but instead of an array returns either a ParserToken if there is a unique interpretation or a ParserError if either none or more than one interpretations exist.
    */
-  exactlyOne(...instructions) {
-    let res = this.either.apply(this, instructions);
+  exactlyOne(...syntaxDescriptors) {
+    let res = this.either.apply(this, syntaxDescriptors);
     if (res.length === 1) {
       return res[0];
     } else if (res.length === 0) {
@@ -194,14 +194,14 @@ export default class Parser {
   }
 
   /**
-   * Parses the given instruction and and maps tokens and errors with the function given.
+   * Parses the given syntax descriptor and and maps tokens and errors with the function given.
    *
-   * Please note that you cannot use an indefinite amount of arguments like you can with most of the other parsing methods. You can, however, pass an array of instructions as the first argument instead.
+   * Please note that you cannot use an indefinite amount of arguments like you can with most of the other parsing methods. You can, however, pass an array of syntax descriptors as the first argument instead.
    *
    * If the wrapper function returns undefined, the elements are mapped using the identity function.
    */
-  parseAndMap(singleInstruction, tokenMapper = (a => a), errorMapper = (a => a)) {
-    let arr = this.parse(singleInstruction);
+  parseAndMap(singlesyntaxDescriptor, tokenMapper = (a => a), errorMapper = (a => a)) {
+    let arr = this.parse(singlesyntaxDescriptor);
     return arr.map((o) => {
       if (o instanceof ParserToken)
         return tokenMapper(o);

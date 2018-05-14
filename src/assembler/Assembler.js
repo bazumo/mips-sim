@@ -51,7 +51,7 @@ export default class Assembler {
     let topLevelTokens = [];
     let plugins = this.getPlugins();
     for (let plugin of plugins) {
-      let n = plugin.getTopLevelParserInstructions();
+      let n = plugin.getTopLevelParserSyntax();
       if (n.length >= 1) topLevelTokens = topLevelTokens.concat(n);
     }
 

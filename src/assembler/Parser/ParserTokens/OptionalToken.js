@@ -7,8 +7,8 @@ import SequentialToken from './SequentialToken';
 import DummyToken from './DummyToken';
 
 /**
- * Matches exactly zero or one occurences of the parsing instructions.
+ * Matches exactly zero or one occurences of the parsing syntax descriptors.
  */
-export default function(...instructions) {
-  return EitherToken(new SequentialToken(...instructions), DummyToken);
+export default function(...syntaxDescriptors) {
+  return EitherToken(new SequentialToken(...syntaxDescriptors), DummyToken);
 }

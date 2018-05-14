@@ -14,7 +14,7 @@ export default class InstructionParserPlugin extends AssemblerPlugin {
     this.architecture = architecture;
   }
 
-  getTopLevelParserInstructions() {
+  getTopLevelParserSyntax() {
     return [
       ["", RepetitiveToken(InstructionToken(this.architecture), EndOfLineToken), null]
     ];

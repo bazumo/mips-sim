@@ -6,12 +6,12 @@ import DummyToken from './DummyToken';
 import ParserError from 'assembler/Parser/ParserError';
 
 /**
- * Expects a sequence of tokens in that exact order. Only parses successfully if each individual instruction parsed successfully.
+ * Expects a sequence of tokens in that exact order. Only parses successfully if each individual syntax descriptor parsed successfully.
  *
- * By passing an object instead of an instruction with properties name and instruction, one can set an instruction name. That instruction can then be accessed by using SequentialToken.<name>.
+ * By passing an object instead of an syntax descriptor with properties name and syntax descriptor, one can set an syntax descriptor name. That syntax descriptor can then be accessed by using SequentialToken.<name>.
  */
-export default function(...instructions) {
-  return iterableConstructor(instructions);
+export default function(...syntaxDescriptors) {
+  return iterableConstructor(syntaxDescriptors);
 }
 
 

@@ -4,12 +4,12 @@ import ParserToken from './ParserToken';
 import ParserError from 'assembler/Parser/ParserError';
 
 /**
- * Matches either of the given instructions.
+ * Matches either of the given syntax descriptors.
  */
-export default function(...instructions) {
+export default function(...syntaxDescriptors) {
   return class EitherToken extends ParserToken {
     static parse(parser) {
-      return parser.either.apply(parser, instructions);
+      return parser.either.apply(parser, syntaxDescriptors);
     }
 
     constructor() {
