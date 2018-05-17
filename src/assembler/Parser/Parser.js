@@ -8,7 +8,7 @@ import StaticStringToken from './ParserTokens/StaticStringToken';
 import StaticRegExToken from './ParserTokens/StaticRegExToken';
 import WhitespaceToken from './ParserTokens/WhitespaceToken';
 import OptionalToken from './ParserTokens/OptionalToken';
-import EndOFStreamToken from './ParserTokens/EndOFStreamToken';
+import EndOFStreamToken from './ParserTokens/EndOfStreamToken';
 
 /**
  * A string wrapper class with several utility functions for parsing.
