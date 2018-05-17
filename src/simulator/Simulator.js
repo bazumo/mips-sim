@@ -40,7 +40,7 @@ export default class Simulator {
     }
 
     for (let i = 0; i < dataView.length; i++) {
-      this.memory[pos + i] = dataView[i];
+      this.memory[memoryAddress + i] = dataView[i];
     }
   }
 
