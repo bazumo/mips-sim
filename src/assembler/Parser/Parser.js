@@ -139,7 +139,7 @@ export default class Parser {
    * @deprecated
    */
   isEndOfFile() {
-    return isEndOfStream();
+    return this.isEndOfStream();
   }
 
 
@@ -232,7 +232,7 @@ export default class Parser {
      results.
    */
   exactlyOne(...syntaxDescriptors) {
-    let res = this.either.apply(...syntaxDescriptors);
+    let res = this.either(...syntaxDescriptors);
     if (res.length === 1) {
       return res[0];
     } else if (res.length === 0) {
@@ -289,7 +289,7 @@ export default class Parser {
    * @return {[]} An array containing the mapped values.
    */
   parseAndMap(syntaxDescriptor, tokenMapper = (a=>a), errorMapper = (a=>a)) {
-    let arr = this.parse(singlesyntaxDescriptor);
+    let arr = this.parse(syntaxDescriptor);
     return arr.map((o) => {
       if (o instanceof ParserToken) {
         return tokenMapper(o);

@@ -9,6 +9,7 @@ import RepetitiveToken from 'assembler/Parser/ParserTokens/RepetitiveToken';
 import EitherToken from 'assembler/Parser/ParserTokens/EitherToken';
 
 
+test("0.1 a bc_", true);
 test(" 2 3 a bc_ ", true);
 test("\n \t    \r\n\n0.1 a b c  \n ", true);
 test("2 3 a b c ", true);
@@ -32,25 +33,13 @@ test("0.1 a b,b b,b,b c ", false);
 test("0.1 a  c ", false);
 
 
-function test(cmd, expected, log = false) {
-  it("\"" + cmd + "\" should" + (expected ? " " : " not ") + "parse", () => {
-    let result = new Parser(cmd).exactlyOne(TestToken);
-    expect(result).toBeInstanceOf(expected ? ParserToken : ParserError);
-    if (log) {
-      console.log("Command:", cmd);
-      console.log("Expects valid:", expected);
-      console.log("Actual result:", util.inspect(result, false, null));
-    }
-  });
-}
 
 class TestToken extends ParserToken {
   static parse(parser) {
     return parser.parse(
       "",
-      EitherToken([
-        ["0", "."],
-        StaticStringToken("1")],
+      EitherToken(
+        [["0", "."], StaticStringToken("1")],
         StaticStringToken("2 3")
       ),
       " ",
@@ -64,4 +53,17 @@ class TestToken extends ParserToken {
       null
     );
   }
+}
+
+
+function test(cmd, expected, log = false) {
+  it("\"" + cmd + "\" should" + (expected ? " " : " not ") + "parse", () => {
+    let result = new Parser(cmd).exactlyOne(TestToken);
+    expect(result).toBeInstanceOf(expected ? ParserToken : ParserError);
+    if (log) {
+      console.log("Command:", cmd);
+      console.log("Expects valid:", expected);
+      console.log("Actual result:", util.inspect(result, false, null));
+    }
+  });
 }
