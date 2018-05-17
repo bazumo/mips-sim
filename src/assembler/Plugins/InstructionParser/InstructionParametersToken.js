@@ -18,7 +18,10 @@ export default function(architecture, instruction) {
 
   return class InstructionParametersToken extends ParserToken {
     static parse(parser) {
-      return parser.parseAndMap(Seq, (a) => new InstructionParametersToken(a.parser, a.sourceStart, a.sourceLine, a.sourcePosInLine, a.tokens));
+      return parser.parseAndMap(
+        Seq,
+        (a) => new InstructionParametersToken(a.parser, a.sourceStart, a.sourceLine, a.sourcePosInLine, a.tokens)
+      );
     }
 
     constructor(parser, sourceStart, sourceLine, sourcePosInLine, parameterTokens) {

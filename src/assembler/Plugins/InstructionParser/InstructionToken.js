@@ -15,7 +15,8 @@ import InstructionParametersToken from './InstructionParametersToken';
       let nres = [];
       let res = parser.parseAndMap(InstructionNameToken(architecture),
         (r) => {
-            let newres = r.parser.parseAndMap(SequentialToken(
+          let newres = r.parser.parseAndMap(
+            SequentialToken(
               "",
               {
                 name: "parametersToken",
@@ -33,7 +34,8 @@ import InstructionParametersToken from './InstructionParametersToken';
                   a.parametersToken
                 )
               );
-            });
+            }
+          );
         }
       );
       return nres;
