@@ -12,6 +12,7 @@ export default class AssemblyError {
   }
 
   toString() {
-    return "Assembly error at " + this.lineNumber + ":" + this.linePos + ": " + this.errorMessage;
+    return "Assembly error at " + this.lineNumber + ":" + this.linePos +
+           ": " + this.errorMessage;
   }
 }

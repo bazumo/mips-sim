@@ -8,7 +8,7 @@ import StaticStringToken from './ParserTokens/StaticStringToken';
 import StaticRegExToken from './ParserTokens/StaticRegExToken';
 import WhitespaceToken from './ParserTokens/WhitespaceToken';
 import OptionalToken from './ParserTokens/OptionalToken';
-import EndOfFileToken from './ParserTokens/EndOfFileToken';
+import EndOFStreamToken from './ParserTokens/EndOFStreamToken';
 
 /**
  * A string wrapper class with several utility functions for parsing.
@@ -132,16 +132,6 @@ export default class Parser {
     return this.s.length <= this.pos;
   }
 
-  /**
-   * Alias for isEndOfStream(). Deprecated, use isEndOfStream() instead.
-   *
-   * @return {boolean} True if the parser reached the end of the stream.
-   * @deprecated
-   */
-  isEndOfFile() {
-    return this.isEndOfStream();
-  }
-
 
   /**
    * Takes any amount of syntax descriptors and returns the result of the
@@ -187,7 +177,7 @@ export default class Parser {
       syntaxDescriptor = StaticRegExToken(syntaxDescriptor);
     }
     if (syntaxDescriptor === null) {
-      syntaxDescriptor = EndOfFileToken;
+      syntaxDescriptor = EndOFStreamToken;
     }
 
 

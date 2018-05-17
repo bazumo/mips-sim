@@ -6,9 +6,16 @@ import DummyToken from './DummyToken';
 import ParserError from 'assembler/Parser/ParserError';
 
 /**
- * Expects a sequence of tokens in that exact order. Only parses successfully if each individual syntax descriptor parsed successfully.
+ * Expects a sequence of tokens in that exact order. Only parses successfully if
+   each individual syntax descriptor parsed successfully.
  *
- * By passing an object instead of an syntax descriptor with properties name and syntax descriptor, one can set an syntax descriptor name. That syntax descriptor can then be accessed by using SequentialToken.<name>.
+ * By passing an object instead of an syntax descriptor with properties name and
+   syntax descriptor, one can set an syntax descriptor name. That syntax
+   descriptor can then be accessed by using SequentialToken.<name>.
+ *
+ * @param {...SyntaxDescriptor} syntaxDescriptor Any number of syntax
+   descriptors, all of whose results will be returned.
+ * @return {object} An object with a .parse function.
  */
 export default function(...syntaxDescriptors) {
   return iterableConstructor(syntaxDescriptors);
@@ -18,7 +25,9 @@ export default function(...syntaxDescriptors) {
 export function iterableConstructor(iterable) {
   return class SequentialTokenInstanceClass extends SequentialToken {
     static parse(parser) {
-      let pos = parser.pos, line = parser.getLineNumber(), posInLine = parser.getPositionInLine();
+      let pos = parser.pos;
+      let line = parser.getLineNumber();
+      let posInLine = parser.getPositionInLine();
       let stp = [[parser, [], {}]];
       let res = [];
 
@@ -28,7 +37,9 @@ export function iterableConstructor(iterable) {
           let nparser = tp[0];
           let inst = instruction;
           let name = undefined;
-          if (typeof inst === 'object' && inst !== null && inst.name !== undefined && inst.instruction !== undefined) {
+          if (typeof inst === 'object' && inst !== null
+                                       && inst.name !== undefined
+                                       && inst.instruction !== undefined) {
             name = inst.name;
             inst = inst.instruction;
           }
@@ -38,17 +49,23 @@ export function iterableConstructor(iterable) {
               res.push(r);
             } else {
               let narr = tp[1];
-              // If the token is another SequentialToken, we want to split it in pieces.
-              // This is solely due to performance reasons; long chains of recursion can cause
-              // stack overflows, slow parsing, and memory issues. By splitting SequentialTokens
-              // that are children of another SequentialToken we highly reduce recursion as created
-              // by eg. RepetitiveToken.
+              /* If the token is another SequentialToken, we want to split it
+                 in pieces.
+               * This is solely due to performance reasons; long chains of
+                 recursion can cause stack overflows, slow parsing, and memory
+                 issues. By splitting SequentialTokens that are children of
+                 another SequentialToken we highly reduce recursion as created
+                 by eg. RepetitiveToken.
+               */
               if (r instanceof SequentialToken) {
                 narr = narr.concat(r.tokens);
-              } else if (!(r instanceof DummyToken)) {  // We also disregard dummy tokens for performance reasons
+
+              // We also disregard dummy tokens for performance reasons
+              } else if (!(r instanceof DummyToken)) {
                 narr = narr.slice();
                 narr.push(r);
               }
+
               let nobj = tp[2];
               if (name !== undefined) {
                 nobj = {...tp[2]};
@@ -59,22 +76,30 @@ export function iterableConstructor(iterable) {
           }
         }
         stp = ntp;
-        if (stp.length === 0) break; // Iterable might have an infinite length, so break when we're done
+        // Iterable might have an infinite length, so break when we're done
+        if (stp.length === 0) break;
       }
 
       for (let tp of stp) {
-        res.push(new SequentialToken(tp[0], pos, line, posInLine, tp[1], tp[2]));
+        res.push(
+          new SequentialToken(tp[0], pos, line, posInLine, tp[1], tp[2])
+        );
       }
       return res;
     }
-  }
+  };
 }
 
 
 
 class SequentialToken extends ParserToken {
 
-  constructor(parser, sourceStart, sourceLine, sourcePosInLine, tokens, objNamed) {
+  constructor(parser,
+              sourceStart,
+              sourceLine,
+              sourcePosInLine,
+              tokens,
+              objNamed) {
     super(parser, sourceStart, sourceLine, sourcePosInLine);
     this.tokens = tokens;
     Object.assign(this, objNamed);

@@ -8,7 +8,10 @@
     "arrow-parens": 0,
     "complexity": ["error", 15],
     "no-multiple-empty-lines": 0,
-    "spaced-comment": 0
+    "spaced-comment": 0,
+    "comma-dangle": 0,
+    "padded-blocks": 0,
+    "one-var": 0
   },
   "extends": "google"
 }

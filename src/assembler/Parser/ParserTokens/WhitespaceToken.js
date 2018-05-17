@@ -4,12 +4,15 @@ import ParserToken from './ParserToken';
 import ParserError from 'assembler/Parser/ParserError';
 
 /**
- * A token that expects one or more whitespaces. It does not assemble to anything and is therefore only useful for syntactical sugar.
+ * A token that expects one or more whitespaces. It does not assemble to
+   anything and is therefore only useful for syntactical sugar.
  */
 export default class WhitespaceToken extends ParserToken {
   static parse(parser) {
     let regex = parser.whitespaceRegex;
-    let pos = parser.pos, line = parser.getLineNumber(), posInLine = parser.getPositionInLine();
+    let pos = parser.pos;
+    let line = parser.getLineNumber();
+    let posInLine = parser.getPositionInLine();
     let s = parser.readRegEx(regex);
     if (s !== undefined) {
       return [new WhitespaceToken(parser, pos, line, posInLine)];

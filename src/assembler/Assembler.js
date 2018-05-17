@@ -1,18 +1,26 @@
 'use strict';
 
-import util from 'util';
 import AssemblyError from './AssemblyError';
 import Parser from './Parser/Parser';
 import ParserError from './Parser/ParserError';
 
 /**
- * Generic assembler class. Not supposed to be subclassed, rather constructed with an architecture argument. The assembler itself does nothing except provide basic parsing functionality; plugins are required, usually provided in the architecture class.
+ * Generic assembler class. Not supposed to be subclassed, rather constructed
+   with an architecture argument. The assembler itself does nothing except
+   provide basic parsing functionality; plugins are required, usually provided
+   in the architecture class.
  *
- * Unlike the simulator and the architecture classes, the Assembler always assembles into binary representation of an array buffer. If the architecture does not support binary machine code, you might want to consider either compiling the binary code into your own machine code, or only using this class as a parse using Assembler.parse().
+ * Unlike the simulator and the architecture classes, the Assembler always
+   assembles into binary representation of a data view. If the architecture does
+   not support binary machine code, you might want to consider either compiling
+   the binary code into your own machine code, or using Assembler.parse().
  */
 export default class Assembler {
   /**
-   * Default constructor. Initializes the assembler for a given architecture using its plugins, or no plugins if no architecture is passed.
+   * Default constructor. Initializes the assembler for a given architecture
+     using its plugins, or no plugins if no architecture is passed.
+   *
+   * @param {Architecture} architecture The architecture used.
    */
   constructor(architecture = null) {
     this.plugins = [];
@@ -25,6 +33,8 @@ export default class Assembler {
 
   /**
    * Adds a plugin to the assembler.
+   *
+   * @param {AssemblerPlugin} plugin The plugin to add.
    */
   addPlugin(plugin) {
     if (this.plugins.includes(plugin)) return;
@@ -37,6 +47,9 @@ export default class Assembler {
 
   /**
    * Returns an array with all plugins enabled in this assembler.
+   *
+   * @return {AssemblerPlugin[]} An array containing all plugins enabled in this
+     assembler.
    */
   getPlugins() {
     return [...this.plugins];
@@ -44,10 +57,11 @@ export default class Assembler {
 
   /**
    * Parses the given string. Returns either a ParserError or a ParserToken.
+   *
+   * @param {string} s The string to be parsed.
+   * @return {ParserResult} The result.
    */
   parse(s) {
-    let result = [];
-
     let topLevelTokens = [];
     let plugins = this.getPlugins();
     for (let plugin of plugins) {
@@ -56,11 +70,15 @@ export default class Assembler {
     }
 
     let parser = new Parser(s, this.architecture);
-    return parser.exactlyOne.apply(parser, topLevelTokens);
+    return parser.exactlyOne(...topLevelTokens);
   }
 
   /**
-   * Parses and assembles the given string. Returns either a ParserError, AssembleError or a data view containing the assembled binary machine code.
+   * Parses and assembles the given string. Returns either a ParserError,
+     AssembleError or a data view containing the assembled binary machine code.
+   *
+   * @param {string} s The string to be parsed and assembled.
+   * @return {DataView} The resulting DataView.
    */
   assemble(s) {
     let token = this.parse(s);
@@ -71,7 +89,10 @@ export default class Assembler {
 
     let dataView = new DataView(new ArrayBuffer(len));
     if (len !== token.writeAssembly(dataView, 0)) {
-      throw new Error("Data view indices somehow didn't sum up to the calculated length - what went wrong?");
+      throw new Error(
+        "Data view indices somehow didn't sum up to the calculated length - " +
+        "what went wrong?"
+      );
     }
     return dataView;
   }

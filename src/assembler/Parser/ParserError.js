@@ -21,6 +21,7 @@ export default class ParserError {
   }
 
   toString() {
-    return "Parsing error at " + this.lineNumber + ":" + this.linePos + " (" + this.pos + "): " + this.errorMessage;
+    return "Parsing error at " + this.lineNumber + ":" + this.linePos +
+           " (" + this.pos + "): " + this.errorMessage;
   }
 }

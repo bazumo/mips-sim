@@ -19,7 +19,8 @@ export default class lui extends InstructionI {
   getParameterParserTokens(architecture) {
     let RPT = RegisterParameterToken(architecture);
     let ILPT = IntegerLiteralParameterToken;
-    return [RPT, this.isImmediateSigned() ? ILPT(-32768, 32767) : ILPT(0, 65535)];
+    return [RPT, this.isImmediateSigned() ? ILPT(-32768, 32767)
+                                          : ILPT(0, 65535)];
   }
 
   writeAssembly(architecture, p, dataView, index) {

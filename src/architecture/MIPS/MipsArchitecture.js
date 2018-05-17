@@ -4,6 +4,7 @@ import Architecture from 'architecture/Architecture';
 import MipsInstructions from './MipsInstructions';
 import MipsRegisters from './MipsRegisters';
 import InstructionR from './instructions/InstructionR';
+// eslint-disable-next-line max-len
 import InstructionParserPlugin from 'assembler/Plugins/InstructionParser/InstructionParserPlugin';
 
 
@@ -60,7 +61,10 @@ export default class MipsArchitecture extends Architecture {
     }
 
     if (result === undefined) {
-      return new Error("Undefined instruction for machine code " + this.getPrintedMachineCode(machineCode));
+      return new Error(
+        "Undefined instruction for machine code " +
+        this.getPrintedMachineCode(machineCode)
+      );
     }
     return result;
   }
@@ -88,9 +92,14 @@ export default class MipsArchitecture extends Architecture {
 
 
 /**
- * Returns a big endian DataView from the given array consisting of 32-bit numbers (either normal JS array or Uint32Array).
+ * Returns a big endian DataView from the given array consisting of 32-bit
+   numbers (either normal JS array or Uint32Array).
  *
- * Please note that this is required as usual arrays use the platform's endianness; MIPS requires big endian.
+ * Most modern architectures use little endian; this function returns big
+   endian.
+ *
+ * @param {number[] | Uint32Array} array The input array.
+ * @return {DataView} The DataView, in big endian.
  */
 MipsArchitecture.array32ToDataView = function(array) {
   let view = new DataView(new ArrayBuffer(4 * array.length));
@@ -98,9 +107,9 @@ MipsArchitecture.array32ToDataView = function(array) {
     view.setUint32(4*i, array[i], false);
   }
   return view;
-}
+};
 
 
 MipsArchitecture.unsignInt32 = function(int) {
   return int >>> 0;
-}
+};

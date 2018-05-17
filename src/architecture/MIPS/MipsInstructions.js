@@ -1,8 +1,11 @@
-'use strict;'
+'use strict';
 
 
 
-// TODO Instructions currently missing: ll, sc. To be fixed: add, addi, sub (overflow trap) and beg, bne (wrong BranchAddr). Also add arithmetic core
+// TODO Instructions currently missing: ll, sc.
+//      To be fixed: add, addi, sub (overflow trap)
+//                   and beg, bne (wrong BranchAddr).
+//      Also add arithmetic core
 const instructionList = [
   'add',
   'addi',
@@ -42,7 +45,11 @@ const instructionList = [
 
 function c(name) {
   let req = require('./instructions/' + name).default;
-  if (typeof req !== 'function') throw new Error(name + " is not a valid instruction in the instructions folder, instead it is " + req);
+  if (typeof req !== 'function') {
+    throw new Error(name + " is not a valid instruction in the instructions" +
+      "folder, instead it is " + req
+    );
+  }
   return new req();
 }
 

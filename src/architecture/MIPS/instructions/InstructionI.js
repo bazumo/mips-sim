@@ -1,7 +1,9 @@
 'use strict';
 
 import BinaryInstruction from 'architecture/BinaryInstruction';
+// eslint-disable-next-line max-len
 import RegisterParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/RegisterParameterToken';
+// eslint-disable-next-line max-len
 import IntegerLiteralParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/IntegerLiteralParameterToken';
 
 /**
@@ -17,7 +19,11 @@ export default class InstructionI extends BinaryInstruction {
   }
 
   /**
-   * Returns a boolean indicating whether the immediate value is a signed value or not. Default: false
+   * Returns a boolean indicating whether the immediate value is a signed value
+     or not. Default: false
+   *
+   * @return {boolean} Boolean value indicating whether the immediate value is
+     signed or not.
    */
   isImmediateSigned() {
     return false;
@@ -30,10 +36,14 @@ export default class InstructionI extends BinaryInstruction {
   getParameterParserTokens(architecture) {
     let RPT = RegisterParameterToken(architecture);
     let ILPT = IntegerLiteralParameterToken;
-    return [RPT, RPT, this.isImmediateSigned() ? ILPT(-32768, 32767) : ILPT(0, 65535)];
+    let isSigned = this.isImmediateSigned();
+    return [RPT, RPT, isSigned ? ILPT(-32768, 32767) : ILPT(0, 65535)];
   }
 
   writeAssembly(architecture, p, dataView, index) {
-    return super.writeAssembly(architecture, [p[1], p[0], p[2]], dataView, index);
+    return super.writeAssembly(architecture,
+                               [p[1], p[0], p[2]],
+                               dataView,
+                               index);
   }
 }
