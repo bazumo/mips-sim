@@ -33,7 +33,7 @@ test("0.1 a  c ", false);
 
 
 function test(cmd, expected, log = false) {
-  it("\"" + cmd  + "\" should" + (expected ? " " : " not ") + "parse", () => {
+  it("\"" + cmd + "\" should" + (expected ? " " : " not ") + "parse", () => {
     let result = new Parser(cmd).exactlyOne(TestToken);
     expect(result).toBeInstanceOf(expected ? ParserToken : ParserError);
     if (log) {
@@ -48,7 +48,11 @@ class TestToken extends ParserToken {
   static parse(parser) {
     return parser.parse(
       "",
-      EitherToken([["0", "."], StaticStringToken("1")], StaticStringToken("2 3")),
+      EitherToken([
+        ["0", "."],
+        StaticStringToken("1")],
+        StaticStringToken("2 3")
+      ),
       " ",
       StaticStringToken("a"),
       " ",
