@@ -11,7 +11,20 @@
     "spaced-comment": 0,
     "comma-dangle": 0,
     "padded-blocks": 0,
-    "one-var": 0
+    "one-var": 0,
+    "generator-star-spacing": 0,
+    "max-len": [2, {
+      "ignoreRegExpLiterals": true,
+      "ignoreTemplateLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTrailingComments": true
+      }
+    ],
+    "no-multi-spaces": [2, {
+        "ignoreEOLComments": true
+      }
+    ],
+    "object-curly-spacing": 0
   },
   "extends": "google"
 }
