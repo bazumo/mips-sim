@@ -6,6 +6,7 @@
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
+    "chalk": "^2.4.1",
     "express": "^4.16.3",
     "react": "^16.3.2",
     "react-ace": "^6.1.0",
@@ -15,7 +16,7 @@
     "start": "npm run-script webpack && npm run-script start-n",
     "start-p": "npm run-script webpack-p && npm run-script start-n",
     "start-n": "babel-node src/server/server.js",
-    "dev": "webpack-dev-server --port 3000",
+    "dev": "webpack-serve --port 3000",
     "build": "npm run-script webpack-p",
     "webpack": "npx webpack",
     "webpack-p": "npx webpack --env.production",
@@ -38,7 +39,8 @@
     "style-loader": "^0.21.0",
     "url-loader": "^1.0.1",
     "webpack": "^4.6.0",
-    "webpack-cli": "^2.0.15"
+    "webpack-cli": "^2.0.15",
+    "webpack-serve": "^1.0.2"
   },
   "jest": {
     "testResultsProcessor": "jest-junit"
