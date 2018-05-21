@@ -1,18 +1,34 @@
 import React, { Component } from 'react';
+import './RegistryView.css';
+import { Input } from 'antd';
 
 class RegistryView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.updateRegister = this.updateRegister.bind(this);
   }
 
+  updateRegister(e) {
+    const target = e.target;
+    this.props.updateRegister(target.name, target.value);
+  }
+
+  /**
+   * Helper function for the registry list
+   */
+
   getTableEntries() {
-    return Object.entries(this.props.data).map(e => {
+    return this.props.data.map((e, i) => {
       return (
-        <tr key={e[0]}>
-          <td>{e[0]}</td>
-          <td>{e[1]}</td>
-        </tr>
+        <div key={e.name}>
+          <Input
+            name={i}
+            addonBefore={e.name}
+            value={e.value}
+            onChange={this.updateRegister}
+          />
+        </div>
       );
     });
   }
@@ -21,9 +37,7 @@ class RegistryView extends Component {
     return (
       <div className="registryView">
         <h4>Registry</h4>
-        <table>
-          <tbody>{this.getTableEntries()}</tbody>
-        </table>
+        <div className="registryView_wrapper">{this.getTableEntries()}</div>
       </div>
     );
   }

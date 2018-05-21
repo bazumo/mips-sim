@@ -1,63 +1,7 @@
 /* Global styles */
-
+@import '~antd/dist/antd.css';
 /* App styles */
-.navbar {
-  height: 50px;
-  display: flex;
-  background-color: #444;
-  align-items: center;
-  padding-left: 20px;
-  grid-column-start: 1;
-  grid-column-end: 3;
-}
-
-.navbar a {
-  text-decoration: none;
-  color: white;
-  padding-right: 20px;
-}
-
-.container {
-  display: grid;
-  grid-template-rows: 50px auto 30px;
-  grid-template-columns: 1fr 400px;
-  height: 100vh;
-}
-
-.footer {
-  grid-column-start: 1;
-  grid-column-end: 3;
-}
-
 /* RegistryView styles */
-
-.registryView {
-}
-
-.registryView table {
-  width: 100%;
-}
-
-.registryView tr {
-}
-
-.registryView td:nth-child(1) {
-  text-align: center;
-  height: 15px;
-  width: 20px;
-  font-size: 8px;
-  vertical-align: middle;
-  border: 1px solid grey;
-}
-
-.registryView td:nth-child(2) {
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid grey;
-}
-
-.registryView td {
-  text-align: center;
-  vertical-align: middle;
-  border: 1px solid grey;
+.aceEditor_wrapper {
+  display: flex;
 }

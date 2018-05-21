@@ -1,6 +1,6 @@
 'use strict';
 
-import { } from 'architecture/MIPS/MipsRegisters';
+import {} from 'architecture/MIPS/MipsRegisters';
 
 /**
  * A simulator class used to simulate any architecture. This class is supposed
@@ -10,7 +10,7 @@ import { } from 'architecture/MIPS/MipsRegisters';
 export default class Simulator {
   constructor(architecture) {
     this.architecture = architecture;
-    this.registers = new Uint32Array(architecture.getRegisterCount());       // TODO Disallow setting of certain registers (eg. $zero) in certain architectures
+    this.registers = new Uint32Array(architecture.getRegisterCount()); // TODO Disallow setting of certain registers (eg. $zero) in certain architectures
     this.memory = new Uint8Array(architecture.getMemorySize());
     this.PC = 0;
     this.nPC = 4;
@@ -36,7 +36,9 @@ export default class Simulator {
       dataView = new Uint8Array(dataView);
     }
     if (!(dataView instanceof Uint8Array)) {
-      throw new Error("dataView must be of type DataView, ArrayBuffer or Uint8Array!");
+      throw new Error(
+        'dataView must be of type DataView, ArrayBuffer or Uint8Array!'
+      );
     }
 
     for (let i = 0; i < dataView.length; i++) {
@@ -45,8 +47,27 @@ export default class Simulator {
   }
 
   /**
-   * Simulates one step in the emulator.
+   * Returns an array with the register name as key
+   * and the value of the register as value
+   *
+   * @return {Array} result
    */
+  getRegisters() {
+    let regnames = this.architecture.getRegisterNames();
+    const result = new Array(this.architecture.getRegisterCount);
+    for (let key of Object.keys(regnames)) {
+      // Ignore all registers that start with a number (duplicates)
+      if (isNaN(parseInt(key[1], 10))) {
+        const index = regnames[key];
+        result[index] = {
+          name: key,
+          value: this.registers[index]
+        };
+      }
+    }
+    return result;
+  }
+
   simulateStep() {
     let machineCode = 0;
     for (let i = 0; i < 4; i++) {
@@ -58,7 +79,4 @@ export default class Simulator {
     this.PC = this.nPC;
     this.nPC = this.PC + 4;
   }
-
-
-
 }

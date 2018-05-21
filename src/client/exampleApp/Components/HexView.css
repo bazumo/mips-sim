@@ -1,18 +1,29 @@
 .HexView {
   font-family: monospace;
   display: grid;
-  grid-template-columns: 200px 90px;
+  grid-template-columns: 70px 210px 95px;
+  height: 200px;
+  overflow-y: scroll;
 }
 
-.HexView_Byteview {
+.HexView_ByteView {
 }
 
-.HexView_Byteview span {
+.HexView_ByteView span {
   padding-right: 0.5em;
   display: inline-block;
 }
-.HexView_Byteview span:nth-child(4n) {
+.HexView_ByteView span:nth-child(4n) {
   padding-right: 1em;
+}
+
+.HewView_AddressView {
+}
+
+.HewView_AddressView span {
+  font-size: 13px;
+  display: inline-block;
+  min-width: 8px;
 }
 
 .HewView_Preview {

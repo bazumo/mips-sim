@@ -5,25 +5,13 @@ class MemoryView extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.buffer = new Uint8Array([
-      41,
-      41,
-      41,
-      41,
-      42,
-      123,
-      45,
-      163,
-      56,
-      27,
-      65
-    ]);
   }
   render() {
+    console.log(this.props);
     return (
       <div>
         <h4>Memory</h4>
-        <HexView buffer={this.buffer} />
+        <HexView buffer={this.props.data} />
       </div>
     );
   }

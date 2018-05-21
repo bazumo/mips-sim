@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.5.3",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
@@ -10,7 +11,9 @@
     "express": "^4.16.3",
     "react": "^16.3.2",
     "react-ace": "^6.1.0",
-    "react-dom": "^16.3.2"
+    "react-dom": "^16.3.2",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2"
   },
   "scripts": {
     "start": "npm run-script webpack && npm run-script start-n",
