@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import Editor from './Components/Editor.jsx';
-import SimulationControls from './Components/SimulationControlls.jsx';
+//import SimulationControls from './Components/SimulationControlls.jsx';
 import RegistryView from './Components/RegistryView.jsx';
 import MemoryView from './Components/MemoryView.jsx';
-import logo from './logo.svg';
 import './App.css';
 import Assembler from 'assembler/Assembler';
 import Simulator from 'simulator/Simulator';
@@ -75,8 +74,8 @@ class App extends Component {
             />
           </div>
           <div className="sidebar">
-            <RegistryView data={this.state.register} />
             <MemoryView data={this.state.memory} />
+            <RegistryView data={this.state.register} />
           </div>
           <div className="footer">...</div>
         </div>

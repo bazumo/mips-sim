@@ -20,6 +20,7 @@ class RegistryView extends Component {
   render() {
     return (
       <div className="registryView">
+        <h4>Registry</h4>
         <table>
           <tbody>{this.getTableEntries()}</tbody>
         </table>

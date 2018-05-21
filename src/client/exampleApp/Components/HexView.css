@@ -1,0 +1,28 @@
+.HexView {
+  font-family: monospace;
+  display: grid;
+  grid-template-columns: 200px 90px;
+}
+
+.HexView_Byteview {
+}
+
+.HexView_Byteview span {
+  padding-right: 0.5em;
+  display: inline-block;
+}
+.HexView_Byteview span:nth-child(4n) {
+  padding-right: 1em;
+}
+
+.HewView_Preview {
+}
+
+.HewView_Preview span {
+  font-size: 13px;
+  display: inline-block;
+  min-width: 8px;
+}
+.HewView_Preview span:nth-child(4n) {
+  padding-right: 1em;
+}
