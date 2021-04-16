@@ -37,7 +37,7 @@ export default class Simulator {
     }
     if (!(dataView instanceof Uint8Array)) {
       throw new Error(
-        'dataView must be of type DataView, ArrayBuffer or Uint8Array!'
+          'dataView must be of type DataView, ArrayBuffer or Uint8Array!'
       );
     }
 
@@ -53,9 +53,9 @@ export default class Simulator {
    * @return {Array} result
    */
   getRegisters() {
-    let regnames = this.architecture.getRegisterNames();
+    const regnames = this.architecture.getRegisterNames();
     const result = new Array(this.architecture.getRegisterCount);
-    for (let key of Object.keys(regnames)) {
+    for (const key of Object.keys(regnames)) {
       // Ignore all registers that start with a number (duplicates)
       if (isNaN(parseInt(key[1], 10))) {
         const index = regnames[key];

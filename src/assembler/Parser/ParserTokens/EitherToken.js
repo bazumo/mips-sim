@@ -18,7 +18,7 @@ export default function(...syntaxDescriptors) {
     constructor() {
       super();
       throw new Error(
-        "Can't instantiate EitherToken! Please use EitherToken.parse() instead"
+          "Can't instantiate EitherToken! Please use EitherToken.parse() instead"
       );
     }
   };

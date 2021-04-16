@@ -4,7 +4,7 @@ import InstructionI from './InstructionI';
 
 export default class andi extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
-    let R = simulator.registers;
+    const R = simulator.registers;
     R[rt] = R[rs] & immediate;
   }
 

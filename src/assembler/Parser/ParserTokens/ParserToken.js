@@ -47,10 +47,10 @@ export default class ParserToken {
    */
   getAssembledLength() {
     return new AssemblyError(
-      this.sourceStart,
-      this.sourceLine,
-      this.sourcePosInLine,
-      "Can't assemble this type of parser token"
+        this.sourceStart,
+        this.sourceLine,
+        this.sourcePosInLine,
+        "Can't assemble this type of parser token"
     );
   }
 
@@ -64,7 +64,7 @@ export default class ParserToken {
    * @param {number} index The first byte to be written.
    * @return {number} The new byte index in the data view.
    */
-   writeAssembly(dataView, index) {
-     return index;
-   }
+  writeAssembly(dataView, index) {
+    return index;
+  }
 }

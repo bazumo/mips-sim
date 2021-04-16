@@ -8,14 +8,14 @@ import StaticRegExToken from './StaticRegExToken';
  */
 export default class EndOfLineToken extends ParserToken {
   static parse(parser) {
-    let regex = parser.newlineRegex;
+    const regex = parser.newlineRegex;
     return parser.parse(StaticRegExToken(regex));
   }
 
   constructor() {
     super();
     throw new Error(
-      "Can't instantiate EndOfLineToken! Please use EndOfLineToken.parse()" +
+        "Can't instantiate EndOfLineToken! Please use EndOfLineToken.parse()" +
       "instead"
     );
   }

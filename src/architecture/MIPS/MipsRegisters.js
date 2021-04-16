@@ -42,7 +42,7 @@ const registerList = [
   'ra'
 ];
 
-let registers = {};
+const registers = {};
 for (let i = 0; i < 32; i++) {
   registers['$' + i] = i;
   registers['$' + registerList[i]] = i;

@@ -3,14 +3,14 @@
 import express from 'express';
 
 const servedFiles = {
-  '/': 'dist/',
+  '/': 'dist',
 };
 
 
 const app = express();
 
 
-for (let key of Object.keys(servedFiles)) {
+for (const key of Object.keys(servedFiles)) {
   app.use(key, express.static(servedFiles[key]));
 }
 

@@ -25,26 +25,26 @@ export default function(...syntaxDescriptors) {
 export function iterableConstructor(iterable) {
   return class SequentialTokenInstanceClass extends SequentialToken {
     static parse(parser) {
-      let pos = parser.pos;
-      let line = parser.getLineNumber();
-      let posInLine = parser.getPositionInLine();
+      const pos = parser.pos;
+      const line = parser.getLineNumber();
+      const posInLine = parser.getPositionInLine();
       let stp = [[parser, [], {}]];
-      let res = [];
+      const res = [];
 
-      for (let instruction of iterable) {
-        let ntp = [];
-        for (let tp of stp) {
-          let nparser = tp[0];
+      for (const instruction of iterable) {
+        const ntp = [];
+        for (const tp of stp) {
+          const nparser = tp[0];
           let inst = instruction;
           let name = undefined;
-          if (typeof inst === 'object' && inst !== null
-                                       && inst.name !== undefined
-                                       && inst.instruction !== undefined) {
+          if (typeof inst === 'object' && inst !== null &&
+                                       inst.name !== undefined &&
+                                       inst.instruction !== undefined) {
             name = inst.name;
             inst = inst.instruction;
           }
-          let ret = nparser.parse(inst);
-          for (let r of ret) {
+          const ret = nparser.parse(inst);
+          for (const r of ret) {
             if (r instanceof ParserError) {
               res.push(r);
             } else {
@@ -80,9 +80,9 @@ export function iterableConstructor(iterable) {
         if (stp.length === 0) break;
       }
 
-      for (let tp of stp) {
+      for (const tp of stp) {
         res.push(
-          new SequentialToken(tp[0], pos, line, posInLine, tp[1], tp[2])
+            new SequentialToken(tp[0], pos, line, posInLine, tp[1], tp[2])
         );
       }
       return res;
@@ -95,11 +95,11 @@ export function iterableConstructor(iterable) {
 class SequentialToken extends ParserToken {
 
   constructor(parser,
-              sourceStart,
-              sourceLine,
-              sourcePosInLine,
-              tokens,
-              objNamed) {
+      sourceStart,
+      sourceLine,
+      sourcePosInLine,
+      tokens,
+      objNamed) {
     super(parser, sourceStart, sourceLine, sourcePosInLine);
     this.tokens = tokens;
     Object.assign(this, objNamed);
@@ -107,8 +107,8 @@ class SequentialToken extends ParserToken {
 
   getAssembledLength() {
     let res = 0;
-    for (let token of this.tokens) {
-      let r = token.getAssembledLength();
+    for (const token of this.tokens) {
+      const r = token.getAssembledLength();
       if (r instanceof AssemblyError) {
         return r;
       }
@@ -118,7 +118,7 @@ class SequentialToken extends ParserToken {
   }
 
   writeAssembly(dataView, index) {
-    for (let token of this.tokens) {
+    for (const token of this.tokens) {
       index = token.writeAssembly(dataView, index);
     }
     return index;

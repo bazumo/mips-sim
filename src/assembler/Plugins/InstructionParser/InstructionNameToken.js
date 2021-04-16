@@ -11,13 +11,13 @@ import ParserToken from 'assembler/Parser/ParserTokens/ParserToken';
 export default function(architecture) {
   return class InstructionNameToken extends ParserToken {
     static parse(parser) {
-      let pos = parser.pos;
-      let line = parser.getLineNumber();
-      let posInLine = parser.getPositionInLine();
+      const pos = parser.pos;
+      const line = parser.getLineNumber();
+      const posInLine = parser.getPositionInLine();
 
-      let instnames = architecture.getInstructionMap();
+      const instnames = architecture.getInstructionMap();
       let best = undefined;
-      for (let key of Object.keys(instnames)) {
+      for (const key of Object.keys(instnames)) {
         if (parser.isNext(key)) {
           if (best === undefined || key.length > best.length) {
             best = key;
@@ -28,10 +28,10 @@ export default function(architecture) {
       if (best === undefined) return [];
       parser.readNext(best.length);
       return [new InstructionNameToken(parser,
-                                       pos,
-                                       line,
-                                       posInLine,
-                                       instnames[best])];
+          pos,
+          line,
+          posInLine,
+          instnames[best])];
     }
 
     constructor(parser, sourceStart, sourceLine, sourcePosInLine, instruction) {

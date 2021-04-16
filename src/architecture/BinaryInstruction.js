@@ -25,11 +25,11 @@ export default class BinaryInstruction extends Instruction {
    * @return {MachineCode} The machine code.
    */
   merge(...args) {
-    let splitSizes = this.getSplitSizes();
+    const splitSizes = this.getSplitSizes();
     let res = 0;
     for (let i = 0; i < splitSizes.length; i++) {
-      let e = args[i];
-      let l = Math.abs(splitSizes[i]);
+      const e = args[i];
+      const l = Math.abs(splitSizes[i]);
       res <<= l;
       res |= e & ((1 << l) - 1);
     }
@@ -45,8 +45,8 @@ export default class BinaryInstruction extends Instruction {
    * @return {[]} The pieces.
    */
   split(machineCode) {
-    let splitSizes = this.getSplitSizes();
-    let res = Array(splitSizes.length);
+    const splitSizes = this.getSplitSizes();
+    const res = Array(splitSizes.length);
     for (let i = splitSizes.length - 1; i >= 0; i--) {
       let l = splitSizes[i];
       let signed = false;
@@ -90,12 +90,12 @@ export default class BinaryInstruction extends Instruction {
   }
 
   writeAssembly(architecture, parameters, dataView, index) {
-    let machineCode = this.asMachineCode(...parameters);
+    const machineCode = this.asMachineCode(...parameters);
 
-    let n = architecture.getWordSize();
-    let endianness = architecture.getEndianness(n);
+    const n = architecture.getWordSize();
+    const endianness = architecture.getEndianness(n);
     for (let i = n - 1; i >= 0; i--) {
-      let j = endianness.next().value;
+      const j = endianness.next().value;
       dataView.setUint8(index + j, machineCode >>> (8 * i) & 255);
     }
 

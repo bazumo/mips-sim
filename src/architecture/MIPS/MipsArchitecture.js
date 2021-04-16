@@ -14,7 +14,7 @@ const allInstructions = Object.values(MipsInstructions);
 const instructionsR = {};
 const instructionsNonR = {};
 
-for (let instr of allInstructions) {
+for (const instr of allInstructions) {
   if (instr instanceof InstructionR) {
     instructionsR[instr.getFunct()] = instr;
   } else {
@@ -52,7 +52,7 @@ export default class MipsArchitecture extends Architecture {
   }
 
   getInstructionFor(machineCode) {
-    let opcode = machineCode >> 26;
+    const opcode = machineCode >> 26;
     let result = undefined;
     if (opcode === 0) {
       result = instructionsR[machineCode & 0b111111];
@@ -62,7 +62,7 @@ export default class MipsArchitecture extends Architecture {
 
     if (result === undefined) {
       return new Error(
-        "Undefined instruction for machine code " +
+          "Undefined instruction for machine code " +
         this.getPrintedMachineCode(machineCode)
       );
     }
@@ -74,7 +74,7 @@ export default class MipsArchitecture extends Architecture {
   }
 
   getPrintedMachineCode(machineCode) {
-   return machineCode.toString(2);
+    return machineCode.toString(2);
   }
 
   getAssemblerPlugins() {
@@ -102,7 +102,7 @@ export default class MipsArchitecture extends Architecture {
  * @return {DataView} The DataView, in big endian.
  */
 MipsArchitecture.array32ToDataView = function(array) {
-  let view = new DataView(new ArrayBuffer(4 * array.length));
+  const view = new DataView(new ArrayBuffer(4 * array.length));
   for (let i = 0; i < array.length; i++) {
     view.setUint32(4*i, array[i], false);
   }

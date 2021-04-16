@@ -13,18 +13,18 @@ import ParserError from 'assembler/Parser/ParserError';
 export default function(regex) {
   return class StaticRegExToken extends ParserToken {
     static parse(parser) {
-      let pos = parser.pos;
-      let line = parser.getLineNumber();
-      let posInLine = parser.getPositionInLine();
-      let s = parser.readRegEx(regex);
+      const pos = parser.pos;
+      const line = parser.getLineNumber();
+      const posInLine = parser.getPositionInLine();
+      const s = parser.readRegEx(regex);
       if (s !== undefined) {
         return [new StaticRegExToken(parser, pos, line, posInLine)];
       } else {
         return [new ParserError(
-          pos,
-          line,
-          posInLine,
-          "Can't match expected regular expression " + regex
+            pos,
+            line,
+            posInLine,
+            "Can't match expected regular expression " + regex
         )];
       }
     }

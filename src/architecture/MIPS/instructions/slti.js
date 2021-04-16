@@ -4,7 +4,7 @@ import InstructionI from './InstructionI';
 
 export default class slti extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
-    let R = simulator.registers;
+    const R = simulator.registers;
     R[rt] = this.toSigned(R[rs], 16) < immediate ? 1 : 0;
   }
 

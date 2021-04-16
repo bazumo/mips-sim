@@ -34,16 +34,16 @@ export default class InstructionI extends BinaryInstruction {
   }
 
   getParameterParserTokens(architecture) {
-    let RPT = RegisterParameterToken(architecture);
-    let ILPT = IntegerLiteralParameterToken;
-    let isSigned = this.isImmediateSigned();
+    const RPT = RegisterParameterToken(architecture);
+    const ILPT = IntegerLiteralParameterToken;
+    const isSigned = this.isImmediateSigned();
     return [RPT, RPT, isSigned ? ILPT(-32768, 32767) : ILPT(0, 65535)];
   }
 
   writeAssembly(architecture, p, dataView, index) {
     return super.writeAssembly(architecture,
-                               [p[1], p[0], p[2]],
-                               dataView,
-                               index);
+        [p[1], p[0], p[2]],
+        dataView,
+        index);
   }
 }

@@ -10,7 +10,7 @@ import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';
 
 function simulate(name, steps, setup, exp) {
   it(name, () => {
-    let sim = new Simulator(new MipsArchitecture());
+    const sim = new Simulator(new MipsArchitecture());
 
     setup(sim);
 
@@ -31,10 +31,10 @@ function simulate(name, steps, setup, exp) {
 
 
 simulate("$t1 = $t0 + 5, $t0 = 2, 8-bit memory loading", 1, (sim) => {
-    sim.loadIntoMemory(new Uint8Array([
-      0b00100001, 0b00001001, 0b00000000, 0b00000101    // addi $t1, $t0, 5
-    ]), 0x0);
-    sim.registers[$t0] = 2;
+  sim.loadIntoMemory(new Uint8Array([
+    0b00100001, 0b00001001, 0b00000000, 0b00000101    // addi $t1, $t0, 5
+  ]), 0x0);
+  sim.registers[$t0] = 2;
 }, (sim) => {
   expect(sim.registers[$t1]).toBe(7);
 });
@@ -48,13 +48,13 @@ simulate("$t1 = $t0 + 5, $t0 = 2, 8-bit memory loading", 1, (sim) => {
 const addiValues = [0, 3, 5, -3];
 const regValues = [0, 2, 4, -4, (1 << 31) - 4, 4294967292];
 
-for (let i of addiValues) {
-  for (let r of regValues) {
+for (const i of addiValues) {
+  for (const r of regValues) {
     simulate("$t1 = $t0 + " + i + ", $t0 = " + r, 1, (sim) => {
-        sim.loadIntoMemory(MipsArchitecture.array32ToDataView([
-          Instructions.addi.asMachineCode($t0, $t1, i)
-        ]), 0x0);
-        sim.registers[$t0] = r;
+      sim.loadIntoMemory(MipsArchitecture.array32ToDataView([
+        Instructions.addi.asMachineCode($t0, $t1, i)
+      ]), 0x0);
+      sim.registers[$t0] = r;
     }, (sim) => {
       expect(sim.registers[$t1]).toBe(MipsArchitecture.unsignInt32(i+r));
     });
@@ -68,11 +68,11 @@ for (let i of addiValues) {
 
 
 simulate("$t1 = ($t0 + 4) - 8, $t0 = 2", 2, (sim) => {
-    sim.loadIntoMemory(MipsArchitecture.array32ToDataView([
-      Instructions.addi.asMachineCode($t0, $t1, 4),
-      Instructions.addi.asMachineCode($t1, $t1, -8)
-    ]), 0x0);
-    sim.registers[$t0] = 2;
+  sim.loadIntoMemory(MipsArchitecture.array32ToDataView([
+    Instructions.addi.asMachineCode($t0, $t1, 4),
+    Instructions.addi.asMachineCode($t1, $t1, -8)
+  ]), 0x0);
+  sim.registers[$t0] = 2;
 }, (sim) => {
   expect(sim.registers[$t1]).toBe(MipsArchitecture.unsignInt32(-2));
 });

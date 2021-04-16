@@ -44,7 +44,7 @@ export default class Architecture {
    *
    * @return {number} The word size, in the architecture's base unit.
    */
-   getWordSize() {
+  getWordSize() {
     throw new Error("Architecture.getWordSize() not implemented!");
     return undefined;
   }
@@ -94,7 +94,7 @@ export default class Architecture {
    * @param {MachineCode} machineCode The instruction's machine code.
    */
   executeMachineCode(simulator, machineCode) {
-    let instruction = this.getInstructionFor(machineCode);
+    const instruction = this.getInstructionFor(machineCode);
     if (instruction === undefined) {
       throw new Error("Undefined instruction for machine code " +
                       this.getPrintedMachineCode(machineCode)

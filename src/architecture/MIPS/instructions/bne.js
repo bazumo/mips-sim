@@ -4,7 +4,7 @@ import InstructionI from './InstructionI';
 
 export default class bne extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
-    let R = simulator.registers;
+    const R = simulator.registers;
     if (R[rt] !== R[rs]) {
       simulator.nPC += 4 * immediate;
     }

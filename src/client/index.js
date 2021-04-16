@@ -8,9 +8,9 @@ import App from './exampleApp/App.jsx';
 import registerServiceWorker from './exampleApp/registerServiceWorker';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
-  document.getElementById('root')
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>,
+    document.getElementById('root')
 );
 registerServiceWorker();

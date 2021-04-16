@@ -33,9 +33,9 @@ export default class InstructionJ extends BinaryInstruction {
 
   writeAssembly(architecture, parameters, dataView, index) {
     index = super.writeAssembly(architecture,
-                                [(parameters[0] >>> 2) & ((1 << 26) - 1)],
-                                dataView,
-                                index);
+        [(parameters[0] >>> 2) & ((1 << 26) - 1)],
+        dataView,
+        index);
     dataView.setUint8(index++, (parameters[0] >>> 24) & 0b11110000);
     return index;
   }

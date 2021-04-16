@@ -9,11 +9,11 @@ import ParserError from 'assembler/Parser/ParserError';
  */
 export default class WhitespaceToken extends ParserToken {
   static parse(parser) {
-    let regex = parser.whitespaceRegex;
-    let pos = parser.pos;
-    let line = parser.getLineNumber();
-    let posInLine = parser.getPositionInLine();
-    let s = parser.readRegEx(regex);
+    const regex = parser.whitespaceRegex;
+    const pos = parser.pos;
+    const line = parser.getLineNumber();
+    const posInLine = parser.getPositionInLine();
+    const s = parser.readRegEx(regex);
     if (s !== undefined) {
       return [new WhitespaceToken(parser, pos, line, posInLine)];
     } else {

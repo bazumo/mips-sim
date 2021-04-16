@@ -44,7 +44,7 @@ const instructionList = [
 
 
 function c(name) {
-  let req = require('./instructions/' + name).default;
+  const req = require('./instructions/' + name).default;
   if (typeof req !== 'function') {
     throw new Error(name + " is not a valid instruction in the instructions" +
       "folder, instead it is " + req
@@ -55,7 +55,7 @@ function c(name) {
 
 
 const instructions = {};
-for (let instruction of instructionList) {
+for (const instruction of instructionList) {
   instructions[instruction] = c(instruction);
 }
 

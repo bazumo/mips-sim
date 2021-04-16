@@ -13,18 +13,18 @@ import ParserError from 'assembler/Parser/ParserError';
 export default function(str) {
   return class StaticStringToken extends ParserToken {
     static parse(parser) {
-      let pos = parser.pos;
-      let line = parser.getLineNumber();
-      let posInLine = parser.getPositionInLine();
-      let s = parser.readNext(str.length);
+      const pos = parser.pos;
+      const line = parser.getLineNumber();
+      const posInLine = parser.getPositionInLine();
+      const s = parser.readNext(str.length);
       if (s === str) {
         return [new StaticStringToken(parser, pos, line, posInLine)];
       } else {
         return [new ParserError(
-          pos,
-          line,
-          posInLine,
-          "Expected " + str + ", received " + s
+            pos,
+            line,
+            posInLine,
+            "Expected " + str + ", received " + s
         )];
       }
     }

@@ -35,7 +35,7 @@ export default class InstructionR extends BinaryInstruction {
 
 
   getParameterParserTokens(architecture) {
-    let RPT = RegisterParameterToken(architecture);
+    const RPT = RegisterParameterToken(architecture);
     if (this.getUseShamt()) {
       return [RPT, RPT, IntegerLiteralParameterToken(0, 31)];
     } else {
@@ -45,8 +45,8 @@ export default class InstructionR extends BinaryInstruction {
 
   writeAssembly(architecture, p, dataView, index) {
     return super.writeAssembly(architecture,
-                               this.getUseShamt() ? [p[1], p[0], p[2]]
-                                                  : [p[2], p[0], p[1]],
+                               this.getUseShamt() ? [p[1], p[0], p[2]] :
+                                                  [p[2], p[0], p[1]],
                                dataView,
                                index);
   }

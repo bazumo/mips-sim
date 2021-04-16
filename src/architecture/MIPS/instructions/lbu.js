@@ -4,7 +4,7 @@ import InstructionI from './InstructionI';
 
 export default class lbu extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {
-    let R = simulator.registers;
+    const R = simulator.registers;
     R[rt] = simulator.memory[R[rs] + immediate];
   }
 

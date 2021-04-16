@@ -48,7 +48,7 @@ export default class Parser {
     this.s = s;
     this.pos = 0;
     this.whitespaceRegex = /\s+/;
-    this.newlineRegex = /\s+\n+\s+/;
+    this.newlineRegex = /\s*(\r?\n)+\s*/;
     this.identifierRegex = /[a-zA-Z_][a-zA-Z0-9_]+/;
   }
 
@@ -59,7 +59,7 @@ export default class Parser {
    * @return {Parser} A clone of this object.
    */
   clone(pos = this.pos) {
-    let res = new Parser(this.s);
+    const res = new Parser(this.s);
     res.pos = pos;
     res.whitespaceRegex = this.whitespaceRegex;
     return res;
@@ -73,7 +73,7 @@ export default class Parser {
    * @return {string} The string read.
    */
   readNext(chars) {
-    let c = this.s.substring(this.pos, this.pos + chars);
+    const c = this.s.substring(this.pos, this.pos + chars);
     this.pos += chars;
     return c;
   }
@@ -87,7 +87,7 @@ export default class Parser {
      next substring.
    */
   isNext(s) {
-    let c = this.s.substring(this.pos, this.pos + s.length);
+    const c = this.s.substring(this.pos, this.pos + s.length);
     return c === s;
   }
 
@@ -115,7 +115,7 @@ export default class Parser {
      were found.
    */
   readRegEx(regex) {
-    let match = regex.exec(this.s.substring(this.pos));
+    const match = regex.exec(this.s.substring(this.pos));
     if (!match) return undefined;
     if (match.index !== 0) return undefined;
     this.pos += match[0].length;
@@ -164,13 +164,13 @@ export default class Parser {
       }
     }
     if (typeof syntaxDescriptor === 'string') {
-      let whitespaceRegex = '^' + this.whitespaceRegex.source + '$';
+      const whitespaceRegex = '^' + this.whitespaceRegex.source + '$';
       if (syntaxDescriptor === '') {
         syntaxDescriptor = OptionalToken(WhitespaceToken);
       } else if (new RegExp(whitespaceRegex).test(syntaxDescriptor)) {
-          syntaxDescriptor = WhitespaceToken;
+        syntaxDescriptor = WhitespaceToken;
       } else {
-          syntaxDescriptor = StaticStringToken(syntaxDescriptor);
+        syntaxDescriptor = StaticStringToken(syntaxDescriptor);
       }
     }
     if (syntaxDescriptor instanceof RegExp) {
@@ -183,12 +183,12 @@ export default class Parser {
 
     if (typeof syntaxDescriptor.parse !== 'function') {
       throw new Error(
-        "The object passed is not a valid syntax descriptor! "
-        + util.inspect(syntaxDescriptor)
+          "The object passed is not a valid syntax descriptor! " +
+        util.inspect(syntaxDescriptor)
       );
     }
 
-    let parsed = syntaxDescriptor.parse(this.clone());
+    const parsed = syntaxDescriptor.parse(this.clone());
     // console.log(syntaxDescriptor, parsed);
     return parsed;
   }
@@ -205,7 +205,7 @@ export default class Parser {
   either(...syntaxDescriptors) {
     let res = [];
     for (let i = 0; i < syntaxDescriptors.length; i++) {
-      let parsed = this.parse(syntaxDescriptors[i]);
+      const parsed = this.parse(syntaxDescriptors[i]);
       res = res.concat(parsed);
     }
     return res;
@@ -222,25 +222,25 @@ export default class Parser {
      results.
    */
   exactlyOne(...syntaxDescriptors) {
-    let res = this.either(...syntaxDescriptors);
+    const res = this.either(...syntaxDescriptors);
     if (res.length === 1) {
       return res[0];
     } else if (res.length === 0) {
       return new ParserError(
-        this,
-        "No matching tokens"
+          this,
+          "No matching tokens"
       );
     }
-    let tokens = [];
-    let errors = [];
-    for (let o of res) {
+    const tokens = [];
+    const errors = [];
+    for (const o of res) {
       if (o instanceof ParserToken) {
         tokens.push(o);
       } else if (o instanceof ParserError) {
         errors.push(o);
       } else {
         throw new Error(
-          "Parser result element " +
+            "Parser result element " +
           o +
           " is neither a ParserToken nor a ParserError!"
         );
@@ -248,15 +248,15 @@ export default class Parser {
     }
     if (tokens.length === 0) {
       return new ParserError(
-        this,
-        "No matching tokens. Error messages: \n[" + errors + "]"
+          this,
+          "No matching tokens. Error messages: \n[" + errors + "]"
       );
     } else if (tokens.length === 1) {
       return tokens[0];
     } else {
       return new ParserError(
-        this,
-        "Code is ambiguous: " + tokens
+          this,
+          "Code is ambiguous: " + tokens
       );
     }
   }
@@ -279,7 +279,7 @@ export default class Parser {
    * @return {[]} An array containing the mapped values.
    */
   parseAndMap(syntaxDescriptor, tokenMapper = (a=>a), errorMapper = (a=>a)) {
-    let arr = this.parse(syntaxDescriptor);
+    const arr = this.parse(syntaxDescriptor);
     return arr.map((o) => {
       if (o instanceof ParserToken) {
         return tokenMapper(o);
@@ -287,7 +287,7 @@ export default class Parser {
         return errorMapper(o);
       } else {
         throw new Error(
-          "Parser result element " +
+            "Parser result element " +
           o +
           " is neither a ParserToken nor a ParserError!"
         );

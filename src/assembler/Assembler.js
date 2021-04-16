@@ -25,7 +25,7 @@ export default class Assembler {
   constructor(architecture = null) {
     this.plugins = [];
     if (architecture !== null) {
-      for (let plugin of architecture.getAssemblerPlugins()) {
+      for (const plugin of architecture.getAssemblerPlugins()) {
         this.addPlugin(plugin);
       }
     }
@@ -40,7 +40,7 @@ export default class Assembler {
     if (this.plugins.includes(plugin)) return;
 
     this.plugins.push(plugin);
-    for (let dependency of plugin.getDependencies()) {
+    for (const dependency of plugin.getDependencies()) {
       this.addPlugin(dependency);
     }
   }
@@ -56,20 +56,21 @@ export default class Assembler {
   }
 
   /**
-   * Parses the given string. Returns either a ParserError or a ParserToken.
+   * Parses the given string. Returns either a ParserError or a
+   * ParserToken.
    *
    * @param {string} s The string to be parsed.
    * @return {ParserResult} The result.
    */
   parse(s) {
     let topLevelTokens = [];
-    let plugins = this.getPlugins();
-    for (let plugin of plugins) {
-      let n = plugin.getTopLevelParserSyntax();
+    const plugins = this.getPlugins();
+    for (const plugin of plugins) {
+      const n = plugin.getTopLevelParserSyntax();
       if (n.length >= 1) topLevelTokens = topLevelTokens.concat(n);
     }
 
-    let parser = new Parser(s, this.architecture);
+    const parser = new Parser(s, this.architecture);
     return parser.exactlyOne(...topLevelTokens);
   }
 
@@ -81,16 +82,16 @@ export default class Assembler {
    * @return {DataView} The resulting DataView.
    */
   assemble(s) {
-    let token = this.parse(s);
+    const token = this.parse(s);
     if (token instanceof ParserError) return token;
 
-    let len = token.getAssembledLength();
+    const len = token.getAssembledLength();
     if (len instanceof AssemblyError) return len;
 
-    let dataView = new DataView(new ArrayBuffer(len));
+    const dataView = new DataView(new ArrayBuffer(len));
     if (len !== token.writeAssembly(dataView, 0)) {
       throw new Error(
-        "Data view indices somehow didn't sum up to the calculated length - " +
+          "Data view indices somehow didn't sum up to the calculated length - " +
         "what went wrong?"
       );
     }

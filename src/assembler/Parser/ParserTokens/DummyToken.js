@@ -8,10 +8,10 @@ import ParserToken from './ParserToken';
 export default class DummyToken extends ParserToken {
   static parse(parser) {
     return [new DummyToken(
-      parser,
-      parser.pos,
-      parser.getLineNumber(),
-      parser.getPositionInLine()
+        parser,
+        parser.pos,
+        parser.getLineNumber(),
+        parser.getPositionInLine()
     )];
   }
 

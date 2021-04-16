@@ -22,8 +22,8 @@ import DummyToken from './DummyToken';
  * @return {object} An object with a .parse function.
  */
 export default function RepetitiveToken(syntaxDescriptor,
-                                        splitBy = DummyToken,
-                                        allowSplitAtEnd = true) {
+    splitBy = DummyToken,
+    allowSplitAtEnd = true) {
   class Repetition extends ParserToken {
     static parse(parser) {
       return parser.parse(OptionalToken(splitBy, syntaxDescriptor, Repetition));
@@ -33,14 +33,14 @@ export default function RepetitiveToken(syntaxDescriptor,
   return class RepetitiveTokenClass extends ParserToken {
     static parse(parser) {
       return parser.parse(syntaxDescriptor, Repetition,
-                                      allowSplitAtEnd ? OptionalToken(splitBy)
-                                                      : DummyToken);
+                                      allowSplitAtEnd ? OptionalToken(splitBy) :
+                                                      DummyToken);
     }
 
     constructor() {
       super();
       throw new Error(
-        "Can't instantiate RepetitiveToken! Please use " +
+          "Can't instantiate RepetitiveToken! Please use " +
         " RepetitiveToken.parse() instead"
       );
     }

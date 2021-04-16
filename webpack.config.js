@@ -5,21 +5,27 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
-  entry: ['babel-polyfill', './src/client/index.js'],
+  entry: ['@babel/polyfill', './src/client/index.js'],
   mode: 'production',
   output: {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist')
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
+    fallback: {
+      util: require.resolve("util/")
+    }
   },
   module: {
     rules: [
       /* Babel */ {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        options: {
+          presets: ['@babel/preset-env']
+        }
       },
       /* CSS */ {
         test: /\.css$/,
@@ -45,7 +51,12 @@ const config = {
       test: path.resolve(__dirname, 'src/test'),
       architecture: path.resolve(__dirname, 'src/architecture')
     }
-  }
+  },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 3000,
+  },
 };
 
 module.exports = function(env) {
@@ -53,15 +64,16 @@ module.exports = function(env) {
 
   if (!env.production) {
     config.mode = 'development';
+    config.devtool = 'eval-source-map',
     config.plugins.push(
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('development')
-        }
-      })
+        new webpack.DefinePlugin({
+          'process.env': {
+            NODE_ENV: JSON.stringify('development')
+          }
+        })
     );
     console.log(
-      'Development mode enabled in webpack.config.js. Make sure to disable this in production builds (by using the --env.production Webpack command line argument)'
+        'Development mode enabled in webpack.config.js. Make sure to disable this in production builds (by using the --env.production Webpack command line argument)'
     );
   }
 

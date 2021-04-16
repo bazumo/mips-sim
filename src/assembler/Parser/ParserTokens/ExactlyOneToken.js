@@ -20,7 +20,7 @@ export default function(...syntaxDescriptors) {
     constructor() {
       super();
       throw new Error(
-        "Can't instantiate ExactlyOneToken! Please use " +
+          "Can't instantiate ExactlyOneToken! Please use " +
         "ExactlyOneToken.parse() instead"
       );
     }

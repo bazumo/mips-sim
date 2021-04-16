@@ -9,9 +9,9 @@ import ParserError from 'assembler/Parser/ParserError';
  */
 export default class EndOfStreamToken extends ParserToken {
   static parse(parser) {
-    let pos = parser.pos;
-    let line = parser.getLineNumber();
-    let posInLine = parser.getPositionInLine();
+    const pos = parser.pos;
+    const line = parser.getLineNumber();
+    const posInLine = parser.getPositionInLine();
     if (parser.isEndOfStream()) {
       return [new EndOfStreamToken(parser, pos, line, posInLine)];
     } else {
