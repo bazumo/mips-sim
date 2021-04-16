@@ -10,3 +10,8 @@ To launch a dev server on `http://localhost:3000`:
 ```sh
 npm run dev
 ```
+
+Also useful:
+```sh
+npm run test:watch
+```

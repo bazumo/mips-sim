@@ -59,11 +59,10 @@ const config = {
   },
 };
 
-module.exports = function(env) {
+module.exports = function(env, argv) {
   if (env === undefined) env = {};
 
-  if (!env.production) {
-    config.mode = 'development';
+  if (argv.mode === 'development') {
     config.devtool = 'eval-source-map',
     config.plugins.push(
         new webpack.DefinePlugin({

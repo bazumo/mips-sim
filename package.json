@@ -24,11 +24,12 @@
     "start-n": "babel-node src/server/server.js",
     "dev": "webpack serve",
     "build": "npm run-script webpack-p",
-    "webpack": "npx webpack",
-    "webpack-p": "npx webpack --env.production",
+    "webpack": "npx webpack --mode=development",
+    "webpack-p": "npx webpack --mode=production",
     "lint": "eslint src",
     "lint-fix": "eslint src --fix",
-    "test": "jest"
+    "test": "jest",
+    "test:watch": "jest --watchAll"
   },
   "devDependencies": {
     "@babel/cli": "^7.13.14",
