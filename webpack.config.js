@@ -59,7 +59,7 @@ const config = {
   },
 };
 
-module.exports = function(env, argv) {
+module.exports = (env, argv) => {
   if (env === undefined) env = {};
 
   if (argv.mode === 'development') {

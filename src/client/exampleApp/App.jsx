@@ -24,6 +24,8 @@ function getMemory() {
   return simulator.memory;
 }
 
+const madeBy = ["bazumo", "N2D4"].sort(Math.random);
+
 //TODO find a good ui framework
 class App extends Component {
   constructor(props) {
@@ -96,7 +98,23 @@ class App extends Component {
               />
             </Sider>
           </Layout>
-          <Footer>Footer</Footer>
+          <Footer>
+            <span style={{ float: 'left' }}>
+              Made by {
+                madeBy.map((x, i) => (
+                  <React.Fragment key={x}>
+                    {i !== 0 && ' & '}
+                    <a href={`https://github.com/${x}`} target="_blank" rel="noopener">{x}</a>
+                  </React.Fragment>
+                ))
+              }
+            </span>
+            <span style={{ float: 'right' }}>
+              <a href={`https://github.com/bazumo/mips-sim`} target="_blank" rel="noopener">
+                Source
+              </a>
+            </span>
+          </Footer>
         </Layout>
       </div>
     );

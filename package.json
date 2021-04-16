@@ -22,7 +22,7 @@
     "start": "npm run-script webpack && npm run-script start-n",
     "start-p": "npm run-script webpack-p && npm run-script start-n",
     "start-n": "babel-node src/server/server.js",
-    "dev": "webpack serve",
+    "dev": "webpack serve --mode=development",
     "build": "npm run-script webpack-p",
     "webpack": "npx webpack --mode=development",
     "webpack-p": "npx webpack --mode=production",
