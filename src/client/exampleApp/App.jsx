@@ -22,13 +22,13 @@ class App extends Component {
     this.assembler = new Assembler(this.arch);
     this.simulator = new Simulator(this.arch);
 
-    let sourceCode = [
-      'lui $t0, 0x1d\n',
-      'ori $t0, $t0, 9647\n',
-      'sll $t1, $t0, 3\n',
-      'sub $t0, $t1, $t0\n',
-      'ori $t1, $zero, 0\n'
-    ].join('');
+    let sourceCode =
+      'lui $t0, 0x1d\n' +
+      'ori $t0, $t0, 9647\n' +
+      'sll $t1, $t0, 3\n' +
+      'sub $t0, $t1, $t0\n' +
+      'ori $t1, $zero, 0\n';
+
     try {
       sourceCode = localStorage.getItem('bazumo-n2d4/mips-sim/source-code') || sourceCode;
     } catch (e) {
