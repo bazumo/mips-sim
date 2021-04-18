@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './HexView.css';
 
-class HexView extends Component {
+class HexView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+
+    if (typeof this.props.updateMemoryCount !== 'number') {
+      throw new Error(`Error! HexView props.updateMemoryCount is required. Update it whenever the memory buffer changes`);
+    }
   }
   renderAddressView(buffer) {
     const view = new Uint8Array(buffer);
     const result = [];
     for (let i = 0; i < view.length; i += 8) {
-      console.log(i);
       const address = '0x' + i.toString(16).padStart(5, '0');
       result.push(<div key={i}>{address}</div>);
     }
@@ -38,7 +41,6 @@ class HexView extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
       <div className="HexView">
         <div className="HexView_AddressView">

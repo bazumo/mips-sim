@@ -1,7 +1,5 @@
 'use strict';
 
-import {} from 'architecture/MIPS/MipsRegisters';
-
 /**
  * A simulator class used to simulate any architecture. This class is supposed
    to be instantiated directly, and while sub-classing is possible it is not
@@ -10,10 +8,19 @@ import {} from 'architecture/MIPS/MipsRegisters';
 export default class Simulator {
   constructor(architecture) {
     this.architecture = architecture;
-    this.registers = new Uint32Array(architecture.getRegisterCount()); // TODO Disallow setting of certain registers (eg. $zero) in certain architectures
-    this.memory = new Uint8Array(architecture.getMemorySize());
+    this.registers = new Uint32Array(this.architecture.getRegisterCount()); // TODO Disallow writing certain registers (eg. $zero) in certain architectures
+    this.memory = new Uint8Array(this.architecture.getMemorySize());
+    this.reset();
+  }
+
+  /**
+   * Resets the simulator back to an initial state.
+   */
+  reset() {
+    this.registers.fill(0);
+    this.memory.fill(0);
     this.PC = 0;
-    this.nPC = 4;
+    this.nPC = undefined;
   }
 
   /**
@@ -47,8 +54,8 @@ export default class Simulator {
   }
 
   /**
-   * Returns an array with the register name as key
-   * and the value of the register as value
+   * Returns an array where the i-th element contains
+   * name and value of the i-th register.
    *
    * @return {Array} result
    */
@@ -69,6 +76,8 @@ export default class Simulator {
   }
 
   simulateStep() {
+    this.nPC = this.PC + 4;
+
     let machineCode = 0;
     for (let i = 0; i < 4; i++) {
       machineCode <<= 8;
@@ -77,6 +86,5 @@ export default class Simulator {
     this.architecture.executeMachineCode(this, machineCode);
 
     this.PC = this.nPC;
-    this.nPC = this.PC + 4;
   }
 }

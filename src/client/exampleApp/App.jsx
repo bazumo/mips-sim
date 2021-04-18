@@ -7,22 +7,9 @@ import './App.css';
 import Assembler from 'assembler/Assembler';
 import Simulator from 'simulator/Simulator';
 import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';
-import { Layout, Button, message } from 'antd';
+import { Layout, Button } from 'antd';
+import snackbar from 'client/util/snackbar.js';
 const { Header, Footer, Sider, Content } = Layout;
-
-const arch = new MipsArchitecture();
-const assembler = new Assembler(arch);
-const simulator = new Simulator(arch);
-
-// Temporary dummy data for registry
-
-function updateRegisterData() {
-  return simulator.getRegisters();
-}
-
-function getMemory() {
-  return simulator.memory;
-}
 
 const madeBy = ["bazumo", "N2D4"].sort(Math.random);
 
@@ -30,41 +17,80 @@ const madeBy = ["bazumo", "N2D4"].sort(Math.random);
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.arch = new MipsArchitecture();
+    this.assembler = new Assembler(this.arch);
+    this.simulator = new Simulator(this.arch);
+
+    let sourceCode = [
+      'lui $t0, 0x1d\n',
+      'ori $t0, $t0, 9647\n',
+      'sll $t1, $t0, 3\n',
+      'sub $t0, $t1, $t0\n',
+      'ori $t1, $zero, 0\n'
+    ].join('');
+    try {
+      sourceCode = localStorage.getItem('bazumo-n2d4/mips-sim/source-code') || sourceCode;
+    } catch (e) {
+      console.warn(`Can't read from local storage - is it disabled?`, e);
+    }
+
     this.state = {
-      register: updateRegisterData(),
-      memory: getMemory(),
-      sourceCode: 'addi  $t0, $t1, 0'
+      simulatorStateChanges: 0,  // increase whenever simulator state changes
+      sourceCode
     };
     this.assembleAndSave = this.assembleAndSave.bind(this);
     this.onSourceCodeChange = this.onSourceCodeChange.bind(this);
     this.updateRegister = this.updateRegister.bind(this);
   }
 
+  step() {
+    this.simulator.simulateStep();
+    this.setState((state) => ({
+      ...state,
+      simulatorStateChanges: state.simulatorStateChanges + 1,
+    }));
+  }
+
+  updatePC(newPC) {
+    this.simulator.PC = newPC;
+    this.setState((state) => ({
+      ...state,
+      simulatorStateChanges: state.simulatorStateChanges + 1,
+    }));
+  }
+
   assembleAndSave() {
-    const dataview = assembler.assemble(this.state.sourceCode);
+    const dataview = this.assembler.assemble(this.state.sourceCode);
     if (!ArrayBuffer.isView(dataview)) {
-      message.error('Parse Error: ' + dataview.errorMessage);
-      console.log(dataview);
+      snackbar.error('Parse error: ' + dataview.errorMessage);
+      console.log(`Parse error`, dataview);
       return;
     }
-    simulator.loadIntoMemory(dataview, 0);
-    console.log(simulator);
-    this.setState({
-      ...this.state,
-      memory: getMemory()
-    });
+    this.simulator.reset();
+    this.simulator.loadIntoMemory(dataview, 0);
+    this.setState((state) => ({
+      ...state,
+      simulatorStateChanges: state.simulatorStateChanges + 1,
+    }));
+    snackbar.success(`Assembling successful!`);
   }
 
   updateRegister(index, value) {
-    simulator.registers[index] = value;
-    this.setState({
-      ...this.state,
-      register: updateRegisterData()
-    });
+    this.simulator.registers[index] = value;
+    this.setState((state) => ({
+      ...state,
+      simulatorStateChanges: state.simulatorStateChanges + 1,
+    }));
   }
 
   onSourceCodeChange(newValue) {
-    console.log('change', newValue);
+    try {
+      localStorage.setItem('bazumo-n2d4/mips-sim/source-code', newValue);
+    } catch (e) {
+      console.warn(`Can't read from local storage - is it disabled?`, e);
+    }
+
     this.setState({
       ...this.state,
       sourceCode: newValue
@@ -76,7 +102,12 @@ class App extends Component {
       <div className="App">
         <Layout style={{ minHeight: '100vh' }}>
           <Header style={{ position: 'fixed', width: '100%', zIndex: '100' }}>
-            <Button onClick={this.assembleAndSave}>Assemble</Button>
+            <Button onClick={() => this.assembleAndSave()}>
+              Assemble
+            </Button>
+            <Button style={{ marginLeft: 16 }} onClick={() => this.step()}>
+              Step
+            </Button>
           </Header>
           <Layout style={{ marginTop: 64 }}>
             <Content>
@@ -91,9 +122,14 @@ class App extends Component {
                 backgroundColor: 'white'
               }}
             >
-              <MemoryView data={this.state.memory} />
+              <MemoryView
+                data={this.simulator.memory}
+                updateMemoryCount={this.state.simulatorStateChanges}
+              />
               <RegistryView
-                data={this.state.register}
+                pc={this.simulator.PC}
+                updatePC={(newPC) => this.updatePC(newPC)}
+                data={this.simulator.getRegisters()}
                 updateRegister={this.updateRegister}
               />
             </Sider>
@@ -104,13 +140,13 @@ class App extends Component {
                 madeBy.map((x, i) => (
                   <React.Fragment key={x}>
                     {i !== 0 && ' & '}
-                    <a href={`https://github.com/${x}`} target="_blank" rel="noopener">{x}</a>
+                    <a href={`https://github.com/${x}`} target="_blank" rel="noopener noreferrer">{x}</a>
                   </React.Fragment>
                 ))
               }
             </span>
             <span style={{ float: 'right' }}>
-              <a href={`https://github.com/bazumo/mips-sim`} target="_blank" rel="noopener">
+              <a href={`https://github.com/bazumo/mips-sim`} target="_blank" rel="noopener noreferrer">
                 Source
               </a>
             </span>

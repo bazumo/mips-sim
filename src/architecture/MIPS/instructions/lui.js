@@ -1,6 +1,8 @@
 'use strict';
 
 import InstructionI from './InstructionI';
+import RegisterParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/RegisterParameterToken';
+import IntegerLiteralParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/IntegerLiteralParameterToken';
 
 export default class lui extends InstructionI {
   apply(simulator, opcode, rs, rt, immediate) {

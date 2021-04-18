@@ -36,8 +36,19 @@ class RegistryView extends Component {
   render() {
     return (
       <div className="registryView">
-        <h4>Registry</h4>
-        <div className="registryView_wrapper">{this.getTableEntries()}</div>
+        <h4>Registers</h4>
+        <div className="registryView_wrapper">
+          <div>
+            <Input
+              name="PC"
+              addonBefore="PC"
+              value={this.props.pc}
+              onChange={this.props.updatePC}
+            />
+          </div>
+          <div></div>
+          {this.getTableEntries()}
+        </div>
       </div>
     );
   }

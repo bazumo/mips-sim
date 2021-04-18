@@ -7,11 +7,13 @@ class MemoryView extends Component {
     this.state = {};
   }
   render() {
-    console.log(this.props);
     return (
       <div>
         <h4>Memory</h4>
-        <HexView buffer={this.props.data} />
+        <HexView
+          buffer={this.props.data}
+          updateMemoryCount={this.props.updateMemoryCount}
+        />
       </div>
     );
   }

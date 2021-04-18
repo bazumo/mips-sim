@@ -8,7 +8,7 @@ import ParameterParserToken from './ParameterParserToken';
  * @return {object} An object with a .parse function.
  */
 export default function(architecture) {
-  return class RegisterParameterToken extends ParameterParserToken {
+  class RegisterParameterToken extends ParameterParserToken {
     static parse(parser) {
       const pos = parser.pos;
       const line = parser.getLineNumber();
@@ -33,4 +33,5 @@ export default function(architecture) {
           regnames[best])];
     }
   };
+  return RegisterParameterToken;
 }

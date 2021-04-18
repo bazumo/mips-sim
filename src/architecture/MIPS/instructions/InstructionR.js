@@ -45,8 +45,8 @@ export default class InstructionR extends BinaryInstruction {
 
   writeAssembly(architecture, p, dataView, index) {
     return super.writeAssembly(architecture,
-                               this.getUseShamt() ? [p[1], p[0], p[2]] :
-                                                  [p[2], p[0], p[1]],
+                               this.getUseShamt() ? [0, p[1], p[0], p[2]] :
+                                                  [p[1], p[2], p[0], 0],
                                dataView,
                                index);
   }
