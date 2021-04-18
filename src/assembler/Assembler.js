@@ -79,7 +79,7 @@ export default class Assembler {
      AssembleError or a data view containing the assembled binary machine code.
    *
    * @param {string} s The string to be parsed and assembled.
-   * @return {DataView} The resulting DataView.
+   * @return {object} The resulting DataView and additional information.
    */
   assemble(s) {
     const token = this.parse(s);
@@ -89,13 +89,14 @@ export default class Assembler {
     if (len instanceof AssemblyError) return len;
 
     const dataView = new DataView(new ArrayBuffer(len));
-    if (len !== token.writeAssembly(dataView, 0)) {
+    const res = { dataView };
+    if (len !== token.writeAssembly(res, 0)) {
       throw new Error(
           "Data view indices somehow didn't sum up to the calculated length - " +
         "what went wrong?"
       );
     }
-    return dataView;
+    return res;
   }
 
 }

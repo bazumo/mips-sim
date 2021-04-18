@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
+import './Editor.css';
 
 import 'brace/mode/mips_assembler';
 import 'brace/theme/github';
@@ -36,6 +37,15 @@ class Editor extends Component {
   }
 
   render() {
+    const markers = this.props.pcLines.map(p => ({
+      startRow: p,
+      endRow: p,
+      startCol: 0,
+      endCol: 1,
+      className: "pc-line-marker",
+      type: "fullLine",
+    }));
+
     return (
       <div ref={this.containerDiv} style={{
         width: "100%",
@@ -61,6 +71,7 @@ class Editor extends Component {
           onChange={this.props.onChange}
           name="code_editor"
           editorProps={{ $blockScrolling: true }}
+          markers={markers}
         />
       </div>
     );

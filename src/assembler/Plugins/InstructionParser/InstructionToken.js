@@ -13,7 +13,7 @@ import InstructionParametersToken from './InstructionParametersToken';
  * @return {object} An object with a .parse function.
  */
 export default function(architecture) {
-  return class InstructionToken extends ParserToken {
+  const InstructionToken = class extends ParserToken {
     static parse(parser) {
       const nres = [];
       parser.parseAndMap(InstructionNameToken(architecture),
@@ -65,11 +65,23 @@ export default function(architecture) {
       return r;
     }
 
-    writeAssembly(dataView, index) {
-      return this.instruction.writeAssembly(architecture,
+    writeAssembly(write, index) {
+      if (!write.instructions) {
+        write.instructions = new Map();
+      }
+      if (!write.instructions.has(index)) write.instructions.set(index, []);
+      write.instructions.get(index).push({
+        sourceLine: this.sourceLine,
+        sourcePosInLine: this.sourcePosInLine,
+      });
+
+      const len = this.instruction.writeAssembly(architecture,
           this.parameters,
-          dataView,
+          write.dataView,
           index);
+      return len;
     }
   };
+
+  return InstructionToken;
 }

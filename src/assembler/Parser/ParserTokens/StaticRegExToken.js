@@ -33,7 +33,7 @@ export default function(regex) {
       return 0;
     }
 
-    writeAssembly(dataView, index) {
+    writeAssembly(write, index) {
       return index;
     }
   };

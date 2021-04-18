@@ -25,7 +25,7 @@ export default class WhitespaceToken extends ParserToken {
     return 0;
   }
 
-  writeAssembly(dataView, index) {
+  writeAssembly(write, index) {
     return index;
   }
 }

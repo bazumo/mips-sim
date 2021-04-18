@@ -27,11 +27,15 @@ export default class ParserToken {
      assembly preparations here.
    *
    * @param {Parser} parser The parser used.
-   * @param {number} sourceStart The position where this token started
-   * @param {number} sourceLine The position where this token started
-   * @param {number} sourcePosInLine The position where this token started
+   * @param {number} sourceStart The raw position where this token started
+   * @param {number} sourceLine The line where this token started
+   * @param {number} sourcePosInLine The position in line where this token
+   * started
    */
   constructor(parser, sourceStart, sourceLine, sourcePosInLine) {
+    if ([sourceStart, sourceLine, sourcePosInLine].forEach((x, i) => {
+      if (typeof x !== 'number') throw new Error(`Invalid argument! ${i}: ${x}`);
+    }));
     this.parser = parser;
     this.sourceStart = sourceStart;
     this.sourceLine = sourceLine;
@@ -60,11 +64,12 @@ export default class ParserToken {
      not written. Behaviour of this function if getAssembledLength() returns an
      AssemblyError is undefined.
    *
-   * @param {DataView} dataView The data view to write the machine code to.
+   * @param {write} write
    * @param {number} index The first byte to be written.
    * @return {number} The new byte index in the data view.
    */
-  writeAssembly(dataView, index) {
-    return index;
+  writeAssembly(write, index) {
+    throw new Error();
+    return 0;
   }
 }

@@ -47,9 +47,25 @@ export default class Parser {
   constructor(s) {
     this.s = s;
     this.pos = 0;
+    this.lineNumber = 0;
+    this.posInLine = 0;
     this.whitespaceRegex = /\s+/;
     this.newlineRegex = /\s*(\r?\n)+\s*/;
     this.identifierRegex = /[a-zA-Z_][a-zA-Z0-9_]+/;
+  }
+
+  /**
+   * @param {string} substr The starting position of the clone.
+   */
+  updatePosInfo(substr) {
+    this.pos += substr.length;
+    const lines = [...substr].filter(x => x === '\n').length;
+    this.lineNumber += lines;
+    if (lines >= 1) {
+      this.posInLine = substr.length - substr.lastIndexOf() - 1;
+    } else {
+      this.posInLine += substr.length;
+    }
   }
 
   /**
@@ -61,7 +77,11 @@ export default class Parser {
   clone(pos = this.pos) {
     const res = new Parser(this.s);
     res.pos = pos;
+    res.lineNumber = this.lineNumber;
+    res.posInLine = this.posInLine;
     res.whitespaceRegex = this.whitespaceRegex;
+    res.newlineRegex = this.newlineRegex;
+    res.identifierRegex = this.identifierRegex;
     return res;
   }
 
@@ -74,7 +94,7 @@ export default class Parser {
    */
   readNext(chars) {
     const c = this.s.substring(this.pos, this.pos + chars);
-    this.pos += chars;
+    this.updatePosInfo(c);
     return c;
   }
 
@@ -100,7 +120,7 @@ export default class Parser {
    */
   readIfNext(s) {
     if (this.isNext(s)) {
-      this.pos += s.length;
+      this.updatePosInfo(c);
       return true;
     }
     return false;
@@ -118,7 +138,7 @@ export default class Parser {
     const match = regex.exec(this.s.substring(this.pos));
     if (!match) return undefined;
     if (match.index !== 0) return undefined;
-    this.pos += match[0].length;
+    this.updatePosInfo(match[0]);
     return match[0];
   }
 
@@ -301,7 +321,7 @@ export default class Parser {
    * @return {number} The current position's line number.
    */
   getLineNumber() {
-    return 0; // TODO
+    return this.lineNumber;
   }
 
 
@@ -311,6 +331,6 @@ export default class Parser {
    * @return {number} The current position in the current line.
    */
   getPositionInLine() {
-    return 0; // TODO
+    return this.posInLine;
   }
 }

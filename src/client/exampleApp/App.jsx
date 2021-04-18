@@ -37,7 +37,8 @@ class App extends Component {
 
     this.state = {
       simulatorStateChanges: 0,  // increase whenever simulator state changes
-      sourceCode
+      sourceCode,
+      instructions: null,
     };
     this.assembleAndSave = this.assembleAndSave.bind(this);
     this.onSourceCodeChange = this.onSourceCodeChange.bind(this);
@@ -61,7 +62,8 @@ class App extends Component {
   }
 
   assembleAndSave() {
-    const dataview = this.assembler.assemble(this.state.sourceCode);
+    const data = this.assembler.assemble(this.state.sourceCode);
+    const dataview = data.dataView;
     if (!ArrayBuffer.isView(dataview)) {
       snackbar.error('Parse error: ' + dataview.errorMessage);
       console.log(`Parse error`, dataview);
@@ -72,6 +74,7 @@ class App extends Component {
     this.setState((state) => ({
       ...state,
       simulatorStateChanges: state.simulatorStateChanges + 1,
+      instructions: data.instructions,
     }));
     snackbar.success(`Assembling successful!`);
   }
@@ -88,16 +91,18 @@ class App extends Component {
     try {
       localStorage.setItem('bazumo-n2d4/mips-sim/source-code', newValue);
     } catch (e) {
-      console.warn(`Can't read from local storage - is it disabled?`, e);
+      console.warn(`Can't write to local storage - is it disabled?`, e);
     }
 
     this.setState({
       ...this.state,
-      sourceCode: newValue
+      sourceCode: newValue,
+      instructions: null,
     });
   }
 
   render() {
+    const instrs = this.state.instructions?.get(this.simulator.PC) ?? [];
     return (
       <div className="App">
         <Layout style={{ minHeight: '100vh' }}>
@@ -114,6 +119,7 @@ class App extends Component {
               <Editor
                 onChange={this.onSourceCodeChange}
                 value={this.state.sourceCode}
+                pcLines={instrs.map(x => x.sourceLine)}
               />
             </Content>
             <Sider

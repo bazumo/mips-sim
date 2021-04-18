@@ -117,9 +117,9 @@ class SequentialToken extends ParserToken {
     return res;
   }
 
-  writeAssembly(dataView, index) {
+  writeAssembly(write, index) {
     for (const token of this.tokens) {
-      index = token.writeAssembly(dataView, index);
+      index = token.writeAssembly(write, index);
     }
     return index;
   }
