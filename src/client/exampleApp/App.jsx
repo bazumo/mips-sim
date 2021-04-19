@@ -11,7 +11,7 @@ import { Layout, Button } from 'antd';
 import snackbar from 'client/util/snackbar.js';
 const { Header, Footer, Sider, Content } = Layout;
 
-const madeBy = ["bazumo", "N2D4"].sort(Math.random);
+const madeBy = ["bazumo", "N2D4"].sort(() => Math.random() < 0.5);
 
 //TODO find a good ui framework
 class App extends Component {
