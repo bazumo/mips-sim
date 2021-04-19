@@ -11,7 +11,7 @@ class RegistryView extends Component {
 
   updateRegister(e) {
     const target = e.target;
-    this.props.updateRegister(target.name, target.value);
+    this.props.updateRegister(target.name, +target.value);
   }
 
   /**
@@ -43,7 +43,7 @@ class RegistryView extends Component {
               name="PC"
               addonBefore="PC"
               value={this.props.pc}
-              onChange={this.props.updatePC}
+              onChange={(e) => this.props.updatePC(+e.target.value)}
             />
           </div>
           <div></div>
