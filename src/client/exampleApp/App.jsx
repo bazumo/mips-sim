@@ -7,9 +7,7 @@ import './App.css';
 import Assembler from 'assembler/Assembler';
 import Simulator from 'simulator/Simulator';
 import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';
-import { Layout, Button } from 'antd';
 import snackbar from 'client/util/snackbar.js';
-const { Header, Footer, Sider, Content } = Layout;
 
 const madeBy = ["bazumo", "N2D4"].sort(() => Math.random() < 0.5);
 
@@ -105,24 +103,24 @@ class App extends Component {
     const instrs = this.state.instructions?.get(this.simulator.PC) ?? [];
     return (
       <div className="App">
-        <Layout style={{ minHeight: '100vh' }}>
-          <Header style={{ position: 'fixed', width: '100%', zIndex: '100' }}>
-            <Button onClick={() => this.assembleAndSave()}>
+        <div style={{ minHeight: '100vh' }}>
+          <header style={{ position: 'fixed', width: '100%', zIndex: '100' }}>
+            <button onClick={() => this.assembleAndSave()}>
               Assemble
-            </Button>
-            <Button style={{ marginLeft: 16 }} onClick={() => this.step()}>
+            </button>
+            <button style={{ marginLeft: 16 }} onClick={() => this.step()}>
               Step
-            </Button>
-          </Header>
-          <Layout style={{ marginTop: 64 }}>
-            <Content>
+            </button>
+          </header>
+          <div style={{ marginTop: 64 }}>
+            <content>
               <Editor
                 onChange={this.onSourceCodeChange}
                 value={this.state.sourceCode}
                 pcLines={instrs.map(x => x.sourceLine)}
               />
-            </Content>
-            <Sider
+            </content>
+            <div
               width="400px"
               style={{
                 backgroundColor: 'white'
@@ -138,9 +136,9 @@ class App extends Component {
                 data={this.simulator.getRegisters()}
                 updateRegister={this.updateRegister}
               />
-            </Sider>
-          </Layout>
-          <Footer>
+            </div>
+          </div>
+          <footer>
             <span style={{ float: 'left' }}>
               Made by {
                 madeBy.map((x, i) => (
@@ -156,8 +154,8 @@ class App extends Component {
                 Source
               </a>
             </span>
-          </Footer>
-        </Layout>
+          </footer>
+        </div>
       </div>
     );
   }

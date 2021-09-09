@@ -1,7 +1,0 @@
-/* Global styles */
-@import '~antd/dist/antd.css';
-/* App styles */
-/* RegistryView styles */
-.aceEditor_wrapper {
-  display: flex;
-}

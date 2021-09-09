@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './RegistryView.css';
-import { Input } from 'antd';
 
 class RegistryView extends Component {
   constructor(props) {
@@ -22,9 +21,9 @@ class RegistryView extends Component {
     return this.props.data.map((e, i) => {
       return (
         <div key={e.name}>
-          <Input
-            name={i}
-            addonBefore={e.name}
+          <div>{e.name}</div>
+          <input
+
             value={e.value}
             onChange={this.updateRegister}
           />
@@ -38,10 +37,9 @@ class RegistryView extends Component {
       <div className="registryView">
         <h4>Registers</h4>
         <div className="registryView_wrapper">
+          <div>PC</div>
           <div>
-            <Input
-              name="PC"
-              addonBefore="PC"
+            <input
               value={this.props.pc}
               onChange={(e) => this.props.updatePC(+e.target.value)}
             />
