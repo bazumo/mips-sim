@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Registers from 'architecture/MIPS/MipsRegisters';
 const { $t0, $t1 } = Registers;

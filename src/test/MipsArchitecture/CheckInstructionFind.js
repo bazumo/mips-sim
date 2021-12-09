@@ -1,4 +1,4 @@
-'use strict';
+
 
 import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';
 

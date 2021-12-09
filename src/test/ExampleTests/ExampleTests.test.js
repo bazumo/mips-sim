@@ -1,4 +1,4 @@
-'use strict';
+
 
 describe("Example tests", () => {
   it("Doesn't miss lethal", () => {

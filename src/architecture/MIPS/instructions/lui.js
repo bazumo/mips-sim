@@ -1,4 +1,4 @@
-'use strict';
+
 
 import InstructionI from './InstructionI';
 import RegisterParameterToken from 'assembler/Plugins/InstructionParser/ParameterTokens/RegisterParameterToken';

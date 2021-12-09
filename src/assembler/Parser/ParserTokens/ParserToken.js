@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * An abstract superclass for parser tokens. A parser token might be anything

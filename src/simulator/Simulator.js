@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * A simulator class used to simulate any architecture. This class is supposed

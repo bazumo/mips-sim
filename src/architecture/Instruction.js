@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * Abstract super-class for all instructions on all architectures. Does not

@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * An error class representing an error during the assembly phase.

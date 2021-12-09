@@ -1,4 +1,4 @@
-'use strict';
+
 
 import EitherToken from './EitherToken';
 import SequentialToken from './SequentialToken';

@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * Abstract superclass for all assembler plugins. May be added to the assembler

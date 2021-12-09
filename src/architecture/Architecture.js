@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * Abstract super-class for all architectures. An architecture defines the

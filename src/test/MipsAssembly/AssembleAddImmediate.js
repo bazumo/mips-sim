@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Assembler from 'assembler/Assembler';
 import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';

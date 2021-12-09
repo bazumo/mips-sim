@@ -1,4 +1,4 @@
-'use strict';
+
 
 import util from 'util';
 import ParserError from './ParserError';

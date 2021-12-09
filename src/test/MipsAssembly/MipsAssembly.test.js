@@ -1,4 +1,4 @@
-'use strict';
+
 
 describe("MIPS Assembler", () => {
   it("Can generate add instruction from binary opcode and arguments", () => {

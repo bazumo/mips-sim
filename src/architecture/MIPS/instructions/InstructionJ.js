@@ -1,4 +1,4 @@
-'use strict';
+
 
 import BinaryInstruction from 'architecture/BinaryInstruction';
 // eslint-disable-next-line max-len

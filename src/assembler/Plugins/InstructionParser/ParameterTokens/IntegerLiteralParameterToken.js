@@ -1,4 +1,4 @@
-'use strict';
+
 
 import ParameterParserToken from './ParameterParserToken';
 import ParserError from 'assembler/Parser/ParserError';

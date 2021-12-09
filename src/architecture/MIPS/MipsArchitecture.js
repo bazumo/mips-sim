@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Architecture from 'architecture/Architecture';
 import MipsInstructions from './MipsInstructions';

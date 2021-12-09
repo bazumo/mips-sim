@@ -1,4 +1,4 @@
-'use strict';
+
 
 import AssemblyError from './AssemblyError';
 import Parser from './Parser/Parser';

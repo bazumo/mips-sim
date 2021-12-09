@@ -1,4 +1,4 @@
-'use strict';
+
 
 import AssemblerPlugin from 'assembler/Plugins/AssemblerPlugin';
 import RepetitiveToken from 'assembler/Parser/ParserTokens/RepetitiveToken';

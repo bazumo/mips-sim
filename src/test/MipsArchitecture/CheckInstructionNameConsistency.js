@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Instructions from 'architecture/MIPS/MipsInstructions';
 

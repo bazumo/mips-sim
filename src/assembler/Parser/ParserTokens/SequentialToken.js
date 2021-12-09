@@ -1,4 +1,4 @@
-'use strict';
+
 
 import AssemblyError from 'assembler/AssemblyError';
 import ParserToken from './ParserToken';

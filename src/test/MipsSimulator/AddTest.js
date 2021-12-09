@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Simulator from 'simulator/Simulator';
 import Registers from 'architecture/MIPS/MipsRegisters';

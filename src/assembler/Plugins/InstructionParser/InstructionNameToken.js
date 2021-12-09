@@ -1,4 +1,4 @@
-'use strict';
+
 
 import ParserToken from 'assembler/Parser/ParserTokens/ParserToken';
 

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Instruction from 'architecture/Instruction';
 
