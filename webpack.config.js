@@ -53,7 +53,7 @@ const config = {
     }
   },
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    static: path.join(__dirname, 'dist'),
     compress: true,
     port: 3000,
   },
