@@ -74,6 +74,12 @@ module.exports = (env, argv) => {
     console.log(
         'Development mode enabled in webpack.config.js. Make sure to disable this in production builds (by using the --env.production Webpack command line argument)'
     );
+  } else {
+    config.plugins.push(
+        new webpack.DefinePlugin({
+          'process.env': {}
+        })
+    );
   }
 
   return config;
