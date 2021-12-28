@@ -1,17 +1,15 @@
-import React, { Component } from 'react';
-import Editor from './Components/Editor.jsx';
+import React, { Component } from "react";
+import Editor from "./Components/Editor.jsx";
 //import SimulationControls from './Components/SimulationControlls.jsx';
-import RegistryView from './Components/RegistryView.jsx';
-import MemoryView from './Components/MemoryView.jsx';
-import './App.css';
-import Assembler from 'assembler/Assembler';
-import Simulator from 'simulator/Simulator';
-import MipsArchitecture from 'architecture/MIPS/MipsArchitecture';
-import { Layout, Button } from 'antd';
-import snackbar from 'client/util/snackbar.js';
-const { Header, Footer, Sider, Content } = Layout;
+import RegistryView from "./Components/RegistryView.jsx";
+import MemoryView from "./Components/MemoryView.jsx";
+import "./App.css";
+import Assembler from "assembler/Assembler";
+import Simulator from "simulator/Simulator";
+import MipsArchitecture from "architecture/MIPS/MipsArchitecture";
+import snackbar from "client/util/snackbar.js";
 
-const madeBy = ["bazumo", "N2D4"].sort(() => Math.random() < 0.5 ? 1 : -1);
+const madeBy = ["bazumo", "N2D4"].sort(() => (Math.random() < 0.5 ? 1 : -1));
 
 //TODO find a good ui framework
 class App extends Component {
@@ -23,20 +21,21 @@ class App extends Component {
     this.simulator = new Simulator(this.arch);
 
     let sourceCode =
-      'lui $t0, 0x1d\n' +
-      'ori $t0, $t0, 9647\n' +
-      'sll $t1, $t0, 3\n' +
-      'sub $t0, $t1, $t0\n' +
-      'ori $t1, $zero, 0\n';
+      "lui $t0, 0x1d\n" +
+      "ori $t0, $t0, 9647\n" +
+      "sll $t1, $t0, 3\n" +
+      "sub $t0, $t1, $t0\n" +
+      "ori $t1, $zero, 0\n";
 
     try {
-      sourceCode = localStorage.getItem('bazumo-n2d4/mips-sim/source-code') || sourceCode;
+      sourceCode =
+        localStorage.getItem("bazumo-n2d4/mips-sim/source-code") || sourceCode;
     } catch (e) {
       console.warn(`Can't read from local storage - is it disabled?`, e);
     }
 
     this.state = {
-      simulatorStateChanges: 0,  // increase whenever simulator state changes
+      simulatorStateChanges: 0, // increase whenever simulator state changes
       sourceCode,
       instructions: null,
     };
@@ -65,7 +64,7 @@ class App extends Component {
     const data = this.assembler.assemble(this.state.sourceCode);
     const dataview = data.dataView;
     if (!ArrayBuffer.isView(dataview)) {
-      snackbar.error('Parse error: ' + dataview.errorMessage);
+      snackbar.error("Parse error: " + dataview.errorMessage);
       console.log(`Parse error`, dataview);
       return;
     }
@@ -89,7 +88,7 @@ class App extends Component {
 
   onSourceCodeChange(newValue) {
     try {
-      localStorage.setItem('bazumo-n2d4/mips-sim/source-code', newValue);
+      localStorage.setItem("bazumo-n2d4/mips-sim/source-code", newValue);
     } catch (e) {
       console.warn(`Can't write to local storage - is it disabled?`, e);
     }
@@ -105,59 +104,57 @@ class App extends Component {
     const instrs = this.state.instructions?.get(this.simulator.PC) ?? [];
     return (
       <div className="App">
-        <Layout style={{ minHeight: '100vh' }}>
-          <Header style={{ position: 'fixed', width: '100%', zIndex: '100' }}>
-            <Button onClick={() => this.assembleAndSave()}>
-              Assemble
-            </Button>
-            <Button style={{ marginLeft: 16 }} onClick={() => this.step()}>
-              Step
-            </Button>
-          </Header>
-          <Layout style={{ marginTop: 64 }}>
-            <Content>
-              <Editor
-                onChange={this.onSourceCodeChange}
-                value={this.state.sourceCode}
-                pcLines={instrs.map(x => x.sourceLine)}
-              />
-            </Content>
-            <Sider
-              width="400px"
-              style={{
-                backgroundColor: 'white'
-              }}
-            >
-              <MemoryView
-                data={this.simulator.memory}
-                updateMemoryCount={this.state.simulatorStateChanges}
-              />
-              <RegistryView
-                pc={this.simulator.PC}
-                updatePC={(newPC) => this.updatePC(newPC)}
-                data={this.simulator.getRegisters()}
-                updateRegister={this.updateRegister}
-              />
-            </Sider>
-          </Layout>
-          <Footer>
-            <span style={{ float: 'left' }}>
-              Made by {
-                madeBy.map((x, i) => (
-                  <React.Fragment key={x}>
-                    {i !== 0 && ' & '}
-                    <a href={`https://github.com/${x}`} target="_blank" rel="noopener noreferrer">{x}</a>
-                  </React.Fragment>
-                ))
-              }
+        <div id="container">
+          <header>
+            <button onClick={() => this.assembleAndSave()}>Assemble</button>
+            <button onClick={() => this.step()}>Step</button>
+          </header>
+          <main id="content">
+            <Editor
+              onChange={this.onSourceCodeChange}
+              value={this.state.sourceCode}
+              pcLines={instrs.map((x) => x.sourceLine)}
+            />
+          </main>
+          <aside id="aside">
+            <MemoryView
+              data={this.simulator.memory}
+              updateMemoryCount={this.state.simulatorStateChanges}
+            />
+            <RegistryView
+              pc={this.simulator.PC}
+              updatePC={(newPC) => this.updatePC(newPC)}
+              data={this.simulator.getRegisters()}
+              updateRegister={this.updateRegister}
+            />
+          </aside>
+          <footer id="footer">
+            <span>
+              Made by{" "}
+              {madeBy.map((x, i) => (
+                <React.Fragment key={x}>
+                  {i !== 0 && " & "}
+                  <a
+                    href={`https://github.com/${x}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {x}
+                  </a>
+                </React.Fragment>
+              ))}
             </span>
-            <span style={{ float: 'right' }}>
-              <a href={`https://github.com/bazumo/mips-sim`} target="_blank" rel="noopener noreferrer">
+            <span>
+              <a
+                href={`https://github.com/bazumo/mips-sim`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Source
               </a>
             </span>
-          </Footer>
-        </Layout>
+          </footer>
+        </div>
       </div>
     );
   }

@@ -1,6 +1,24 @@
-import React, { Component } from 'react';
-import './RegistryView.css';
-import { Input } from 'antd';
+import React, { Component } from "react";
+import "./RegistryView.css";
+import { Input } from "antd";
+import { fixControlledValue } from "antd/lib/input/Input";
+
+
+
+
+
+
+
+
+function Register({name, value, onChange}) {
+  return <div>
+    <span>{name}</span>
+    <input
+      value={value}
+      onChange={onChange}
+    />
+  </div>;
+}
 
 class RegistryView extends Component {
   constructor(props) {
@@ -22,12 +40,7 @@ class RegistryView extends Component {
     return this.props.data.map((e, i) => {
       return (
         <div key={e.name}>
-          <Input
-            name={i}
-            addonBefore={e.name}
-            value={e.value}
-            onChange={this.updateRegister}
-          />
+          <Register name={e.name} value={e.value} onChange={this.updateRegister}></Register>
         </div>
       );
     });
