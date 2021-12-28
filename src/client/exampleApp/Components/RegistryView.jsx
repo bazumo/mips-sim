@@ -1,12 +1,35 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import "./RegistryView.css";
 import SidebarItem from "./SidebarItem.jsx";
 
+
 function Register({ name, value, onChange }) {
+  const [val, setVal] = useState(null);
+
+  const displayValue = val ?? "0x" + value.toString(16);
+
+  const handleBlur = () => {
+    const newVal = parseInt(val);
+    if (newVal !== value) {
+      onChange(newVal);
+    }
+    setVal(null);
+  };
+
+  const handleFocus = () => {
+    setVal(displayValue);
+  };
+
   return (
     <>
       <span>{name}</span>
-      <input value={"0x" + value.toString(16)} onChange={onChange} />
+      <input
+        value={displayValue}
+        onChange={(e) => setVal(e.target.value)}
+        onBlur={handleBlur}
+        onSubmit={handleBlur}
+        onFocus={handleFocus}
+      />
     </>
   );
 }
@@ -48,13 +71,12 @@ class RegistryView extends Component {
             <Register
               name="PC"
               value={this.props.pc}
-              onChange={(e) => this.props.updatePC(+e.target.value)}
+              onChange={(value) => this.props.updatePC(value)}
             />
             {this.getTableEntries()}
           </div>
         </div>
       </SidebarItem>
-
     );
   }
 }
