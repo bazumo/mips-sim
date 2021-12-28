@@ -1,23 +1,14 @@
 import React, { Component } from "react";
 import "./RegistryView.css";
-import { Input } from "antd";
-import { fixControlledValue } from "antd/lib/input/Input";
+import SidebarItem from "./SidebarItem.jsx";
 
-
-
-
-
-
-
-
-function Register({name, value, onChange}) {
-  return <div>
-    <span>{name}</span>
-    <input
-      value={value}
-      onChange={onChange}
-    />
-  </div>;
+function Register({ name, value, onChange }) {
+  return (
+    <>
+      <span>{name}</span>
+      <input value={"0x" + value.toString(16)} onChange={onChange} />
+    </>
+  );
 }
 
 class RegistryView extends Component {
@@ -39,30 +30,31 @@ class RegistryView extends Component {
   getTableEntries() {
     return this.props.data.map((e, i) => {
       return (
-        <div key={e.name}>
-          <Register name={e.name} value={e.value} onChange={this.updateRegister}></Register>
-        </div>
+        <Register
+          key={e.name}
+          name={e.name}
+          value={e.value}
+          onChange={this.updateRegister}
+        ></Register>
       );
     });
   }
 
   render() {
     return (
-      <div className="registryView">
-        <h4>Registers</h4>
+      <SidebarItem title="Registers">
         <div className="registryView_wrapper">
-          <div>
-            <Input
+          <div className="registryView_registers">
+            <Register
               name="PC"
-              addonBefore="PC"
               value={this.props.pc}
               onChange={(e) => this.props.updatePC(+e.target.value)}
             />
+            {this.getTableEntries()}
           </div>
-          <div></div>
-          {this.getTableEntries()}
         </div>
-      </div>
+      </SidebarItem>
+
     );
   }
 }

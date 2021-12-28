@@ -1,0 +1,11 @@
+
+
+.sidebarItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebarItem > header{
+  font-weight: bold;
+  margin-bottom: 8px;
+}

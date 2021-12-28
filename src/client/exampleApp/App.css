@@ -1,16 +1,33 @@
 /* Global styles */
-@import '~antd/dist/antd.css';
+@import 'modern-normalize/modern-normalize.css';
+
+:root {
+  --main-color:rgba(230,230,230,1);
+  --main-bg-color: rgba(33,33,33,1);
+  --main-action-color: rgba(66,66,106,1);
+  --main-action-color-hover: rgba(66,66,106,0.8);
+  --main-action-color-active: rgba(66,66,106,0.6);
+  --border-color: rgba(255,255,255,0.2);
+}
+
+
+* {
+  font-family: monospace;
+  color: var(--main-color);
+}
 /* App styles */
 /* RegistryView styles */
 .aceEditor_wrapper {
   display: flex;
 }
 
+
 #container {
+  background-color: var(--main-bg-color);
   min-height: 100vh;
   display: grid;
-  grid-template-rows: 50px auto 50px;
-  grid-template-columns: auto 270px;
+  grid-template-rows: 50px calc(100vh - 100px) 50px;
+  grid-template-columns: auto 370px;
   grid-template-areas:
     "header header"
     "main aside"
@@ -21,18 +38,48 @@
   grid-area: header;
   display: flex;
   padding-left: 20px;
-  align-self: center;
   align-items: center;
   height: 100%;
   gap: 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.3);
+  border-bottom: 1px solid var(--border-color);
+}
+
+#container > header > button{
+  background: var(--main-action-color);
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#container > header > button:hover {
+  background: var(--main-action-color-hover);
+  
+}
+
+#container > header > button:active {
+  background: var(--main-action-color-active);
+  
 }
 
 
 #container > aside {
+  display: flex;
+  flex-direction: column;
   grid-area: aside;
-  background-color: white;
+  overflow: hidden;
+  border-left: 1px solid var(--border-color);
 }
+
+#container > aside > div + div {
+  border-top: 1px solid var(--border-color);
+}
+
+#container > aside > div {
+  padding: 10px 20px 10px 10px;
+}
+
+
+
 #container > footer {
   grid-area: footer;
   display: flex;
@@ -41,7 +88,7 @@
   justify-content: space-between;
   align-items: center;
   height: 100%;
-  border-top: 1px solid rgba(0,0,0,0.3);
+  border-top: 1px solid var(--border-color);
 }
 #container > main {
   grid-area: main;

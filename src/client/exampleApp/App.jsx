@@ -7,11 +7,9 @@ import "./App.css";
 import Assembler from "assembler/Assembler";
 import Simulator from "simulator/Simulator";
 import MipsArchitecture from "architecture/MIPS/MipsArchitecture";
-import snackbar from "client/util/snackbar.js";
 
 const madeBy = ["bazumo", "N2D4"].sort(() => (Math.random() < 0.5 ? 1 : -1));
 
-//TODO find a good ui framework
 class App extends Component {
   constructor(props) {
     super(props);
@@ -64,7 +62,7 @@ class App extends Component {
     const data = this.assembler.assemble(this.state.sourceCode);
     const dataview = data.dataView;
     if (!ArrayBuffer.isView(dataview)) {
-      snackbar.error("Parse error: " + dataview.errorMessage);
+      //snackbar.error("Parse error: " + dataview.errorMessage);
       console.log(`Parse error`, dataview);
       return;
     }
@@ -75,7 +73,7 @@ class App extends Component {
       simulatorStateChanges: state.simulatorStateChanges + 1,
       instructions: data.instructions,
     }));
-    snackbar.success(`Assembling successful!`);
+    //snackbar.success(`Assembling successful!`);
   }
 
   updateRegister(index, value) {
@@ -117,16 +115,17 @@ class App extends Component {
             />
           </main>
           <aside id="aside">
-            <MemoryView
-              data={this.simulator.memory}
-              updateMemoryCount={this.state.simulatorStateChanges}
-            />
             <RegistryView
               pc={this.simulator.PC}
               updatePC={(newPC) => this.updatePC(newPC)}
               data={this.simulator.getRegisters()}
               updateRegister={this.updateRegister}
             />
+            <MemoryView
+              data={this.simulator.memory}
+              updateMemoryCount={this.state.simulatorStateChanges}
+            />
+
           </aside>
           <footer id="footer">
             <span>

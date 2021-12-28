@@ -1,18 +1,27 @@
-.registryView {
-  font-family: monospace;
-}
+
 
 .registryView_wrapper {
-  display: flex;
-  flex-flow: row wrap;
-}
-
-.registryView_wrapper > div {
-  flex: 1;
-  flex-basis: 50%;
-}
-
-.registryView .ant-input-group-addon {
   font-family: monospace;
-  width: 80px;
+}
+
+
+
+.registryView_registers {
+  display: grid;
+  column-gap: 5px;
+  row-gap: 2px;
+  grid-template-columns: repeat(auto-fill, minmax(30px,1fr) minmax(60px,2fr));
+}
+
+
+.registryView_registers > input {
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  background-color: transparent;
+  text-align: right;
+}
+
+
+.registryView_registers > span {
+  text-align: right;
 }

@@ -3,7 +3,7 @@ import AceEditor from 'react-ace';
 import './Editor.css';
 
 import 'brace/mode/mips_assembler';
-import 'brace/theme/github';
+import 'brace/theme/chaos';
 
 class Editor extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class Editor extends Component {
           ref={this.editor}
           mode="mips_assembler"
           value={this.props.value}
-          theme="github"
+          theme="chaos"
           width="100%"
           height={this.state.height + "px"}
           className="aceEditor_wrapper"

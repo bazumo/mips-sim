@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
-import HexView from './HexView.jsx';
-//TODO implement MemoryView component
+import React, { Component } from "react";
+import HexView from "./HexView.jsx";
+import SidebarItem from "./SidebarItem.jsx";
+
 class MemoryView extends Component {
   constructor(props) {
     super(props);
@@ -8,13 +9,13 @@ class MemoryView extends Component {
   }
   render() {
     return (
-      <div>
-        <h4>Memory</h4>
+      <SidebarItem title="Memory" style={{height: "300px", flexGrow: 1}}>
         <HexView
           buffer={this.props.data}
           updateMemoryCount={this.props.updateMemoryCount}
         />
-      </div>
+      </SidebarItem>
+
     );
   }
 }
