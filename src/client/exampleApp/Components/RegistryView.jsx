@@ -41,9 +41,8 @@ class RegistryView extends Component {
     this.updateRegister = this.updateRegister.bind(this);
   }
 
-  updateRegister(e) {
-    const target = e.target;
-    this.props.updateRegister(target.name, +target.value);
+  updateRegister({value, name}) {
+    this.props.updateRegister(name, value);
   }
 
   /**
@@ -71,7 +70,7 @@ class RegistryView extends Component {
             <Register
               name="PC"
               value={this.props.pc}
-              onChange={(value) => this.props.updatePC(value)}
+              onChange={({value}) => this.props.updatePC(value)}
             />
             {this.getTableEntries()}
           </div>
