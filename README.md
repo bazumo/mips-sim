@@ -1,5 +1,7 @@
 # mips-simulator
 
+https://bazumo.github.io/mips-sim
+
 To build the project:
 ```sh
 npm run build
